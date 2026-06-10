@@ -24,6 +24,42 @@ import { buildVisionPrefix } from "../vault/master-vision.ts";
 import { recordFailure, shouldDream, runDreamingSession } from "./dreaming.ts";
 import { buildLearningPrefix, recordLearning, detectFrustration, detectPreference } from "./learnings.ts";
 
+/**
+ * Pull a tool call out of an agent response — tolerantly.
+ *
+ * Accepts `TOOL_CALL:<name>:<json>` with optional spaces around the colons,
+ * ignores any prose the model adds AFTER the JSON object, and brace-matches the
+ * object so a `}` inside a JSON string doesn't end it early. Returns the tool
+ * name plus the exact JSON substring, or null if there's no tool call.
+ *
+ * This replaces a greedy `(\{.*\})` regex that over-captured trailing text and
+ * made a single malformed line crash the whole agent turn.
+ */
+export function extractToolCall(response: string): { name: string; json: string } | null {
+  const m = response.match(/TOOL_CALL:\s*([\w.\-]+)\s*:\s*/);
+  if (!m || m.index === undefined) return null;
+  const start = m.index + m[0].length;
+  if (response[start] !== "{") return null;
+
+  let depth = 0, inStr = false, esc = false;
+  for (let i = start; i < response.length; i++) {
+    const ch = response[i];
+    if (inStr) {
+      if (esc) esc = false;
+      else if (ch === "\\") esc = true;
+      else if (ch === '"') inStr = false;
+    } else if (ch === '"') {
+      inStr = true;
+    } else if (ch === "{") {
+      depth++;
+    } else if (ch === "}") {
+      depth--;
+      if (depth === 0) return { name: m[1], json: response.slice(start, i + 1) };
+    }
+  }
+  return null; // unbalanced — no complete JSON object
+}
+
 export interface AgentTool {
   name: string;
   description: string;
@@ -291,11 +327,20 @@ export class AgentRunner {
         }
 
         // ── Tool call pattern ─────────────────────────────────────────────
-        // Format: TOOL_CALL:<toolName>:<jsonParams>
-        const toolMatch = response.match(/TOOL_CALL:(\w+):(\{.*\})/s);
-        if (toolMatch) {
-          const toolName = toolMatch[1];
-          const toolParams = JSON.parse(toolMatch[2]);
+        // Format: TOOL_CALL:<toolName>:<jsonParams>  (parsed tolerantly).
+        const call = extractToolCall(response);
+        if (call) {
+          const toolName = call.name;
+          let toolParams: Record<string, unknown>;
+          try {
+            toolParams = JSON.parse(call.json) as Record<string, unknown>;
+          } catch {
+            // Malformed JSON from the model — recover instead of failing the turn:
+            // tell the agent what went wrong and let it retry on the next turn.
+            messages.push({ role: "assistant", content: response });
+            messages.push({ role: "user", content: `Your TOOL_CALL for "${toolName}" had invalid JSON. Resend it exactly as TOOL_CALL:${toolName}:{ ...valid JSON... } with nothing after the closing brace.` });
+            continue;
+          }
 
           const tool = this.agent.tools.find(t => t.name === toolName);
           if (!tool) {

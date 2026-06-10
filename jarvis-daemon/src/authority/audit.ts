@@ -35,7 +35,10 @@ export type AuditAction =
   | "rate_limit_hit"
   | "three_strikes_abort"
   | "feedback_received"
-  | "agent_a2a_message";
+  | "agent_a2a_message"
+  | "agent_loop_start"
+  | "agent_loop_step"
+  | "agent_loop_end";
 
 export interface AuditEntry {
   id: string;

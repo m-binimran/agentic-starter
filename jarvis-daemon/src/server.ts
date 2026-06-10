@@ -54,6 +54,7 @@ import { synthesizeSpeech } from "./llm/edge-tts.ts";
 import { setAnnotations, getAnnotations, clearAnnotations, type Shape } from "./annotations.ts";
 import { runGuide, requestGuide, takePendingGuide, submitCapture, getGuideResult } from "./guide.ts";
 import { beginWork, endWork, isBusy } from "./activity.ts";
+import { startLoop, stopLoop, getLoop, listLoops } from "./agents/loop.ts";
 import { configureProviders } from "./config/loader.ts";
 import { startSlack, refreshAgentApps } from "./slack/bot.ts";
 import { preTaskCheck } from "./agents/pre-task.ts";
@@ -270,6 +271,28 @@ export function buildServer(deps: {
 
   // ── Activity — is JARVIS working? (the pill polls this for its thinking dots) ─
   app.get("/api/activity", c => c.json({ busy: isBusy() }));
+
+  // ── Autonomous agent loop ─────────────────────────────────────────────────
+  // Give it a goal; it works step-by-step on its own until done or a guardrail
+  // trips (step cap, token budget, cancel). Risky actions stay blocked unattended.
+  const loopSchema = z.object({
+    goal: z.string().min(1).max(2000),
+    maxSteps: z.number().int().positive().optional(),
+    tokenBudget: z.number().int().positive().optional(),
+    agentId: z.string().optional(),
+  });
+  app.post("/api/loop/start", zValidator("json", loopSchema), c => {
+    const body = c.req.valid("json") as { goal: string; maxSteps?: number; tokenBudget?: number; agentId?: string };
+    const res = startLoop(orchestrator, body.goal, body);
+    if ("error" in res) return c.json(res, 429);
+    return c.json(res);
+  });
+  app.get("/api/loop", c => c.json({ loops: listLoops() }));
+  app.get("/api/loop/:id", c => {
+    const loop = getLoop(c.req.param("id"));
+    return loop ? c.json(loop) : c.json({ error: "loop not found" }, 404);
+  });
+  app.post("/api/loop/:id/stop", c => c.json({ stopped: stopLoop(c.req.param("id")) }));
 
   // ── Agents ───────────────────────────────────────────────────────────────
 
