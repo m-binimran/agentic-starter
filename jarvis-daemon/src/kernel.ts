@@ -29,6 +29,7 @@ import { getDb, initDatabase } from "./vault/schema.ts";
 import { setDryRun, setAllowedPaths } from "./guardrails.ts";
 import { setShellEnabled } from "./sandbox.ts";
 import { connectMcpServer, type McpStdioOptions, type McpClientHandle } from "./mcp/client.ts";
+import { Memory, memoryConnector, type MemoryHit } from "./memory.ts";
 import { extractToolCall } from "./agents/runner.ts";
 import { LLMManager } from "./llm/manager.ts";
 import type { LLMProvider, LLMMessage } from "./llm/provider.ts";
@@ -71,6 +72,8 @@ export interface KernelOptions {
   dryRun?: boolean;
   /** Allow shell execution (only ever inside the Docker sandbox). Default false. */
   enableShell?: boolean;
+  /** Enable the local semantic memory tier + memory_remember/recall tools. Default true. */
+  memory?: boolean;
 }
 
 export type ApprovalHandler = (action: ActionCategory, context: string) => boolean | Promise<boolean>;
@@ -101,6 +104,7 @@ export class Kernel {
   readonly router: MCPRouter;
   readonly authority: AuthorityEngine;
   readonly audit: AuditTrail;
+  readonly memory: Memory | null;
   llm: LLMManager | null = null;
 
   constructor(opts: KernelOptions = {}) {
@@ -113,11 +117,31 @@ export class Kernel {
     this.router.setAuthority(this.authority); // make the router the secure chokepoint
     this.audit = getAuditTrail();
 
+    // Local semantic memory on by default (degrades to keyword recall w/o Ollama).
+    if (opts.memory === false) {
+      this.memory = null;
+    } else {
+      this.memory = new Memory();
+      this.router.register(memoryConnector(this.memory));
+    }
+
     if (opts.llm) this.useLLM(opts.llm);
     if (opts.tools) for (const t of opts.tools) this.addTool(t);
     if (opts.allowedPaths !== undefined) setAllowedPaths(opts.allowedPaths);
     if (opts.dryRun) setDryRun(true);
     if (opts.enableShell) setShellEnabled(true);
+  }
+
+  /** Save a fact to long-term local memory. */
+  remember(text: string, metadata?: Record<string, unknown>): Promise<string> {
+    if (!this.memory) throw new Error("Memory is disabled (createKernel({ memory:false })).");
+    return this.memory.remember(text, metadata);
+  }
+
+  /** Recall the most relevant memories for a query. */
+  recall(query: string, k = 5): Promise<MemoryHit[]> {
+    if (!this.memory) throw new Error("Memory is disabled (createKernel({ memory:false })).");
+    return this.memory.recall(query, k);
   }
 
   /** Attach a model. Accepts a single provider or a fully-configured LLMManager. */
@@ -242,3 +266,5 @@ export type { ActionCategory, PermissionMode, AuthDecision } from "./authority/e
 export { getAuditTrail } from "./authority/audit.ts";
 export { connectMcpServer } from "./mcp/client.ts";
 export { handleMcpRequest } from "./mcp/protocol.ts";
+export { Memory } from "./memory.ts";
+export type { MemoryHit } from "./memory.ts";

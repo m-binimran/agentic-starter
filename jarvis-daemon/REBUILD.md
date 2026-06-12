@@ -40,7 +40,13 @@ Decisions: **Sandbox = Docker** | **Memory = sqlite-vec + local Ollama embedding
       `SDK.md` (quickstart + per-layer docs + API) and `examples/agent.ts` (runnable).
       TESTED LIVE: agent looped add→"42" (1 toolCall); untrusted circuit-breaker blocked.
       Fixed a strip-types blocker (parameter property in client.ts) + lazy audit-DB init.
-- [ ] **7. Memory tier** -> sqlite-vec (embedded) + Ollama embeddings (local).
+- [x] **7. Memory tier** -> `src/memory.ts`: embedded semantic memory in the same
+      sqlite vault (nothing leaves the machine). Local Ollama embeddings + in-process
+      cosine; graceful fallback to term-overlap keyword recall when Ollama is down
+      (never throws). No native vector ext (kept forkable; sqlite-vec slots in later
+      as pure acceleration, same API). `kernel.remember/recall` + gated memory_remember
+      (write_file) / memory_recall (read_file) tools. TESTED LIVE (Ollama down -> keyword):
+      'authority gate moat' & 'github repo' recalled the right facts; forget works.
 
 ## MOVE 3 - keep the validated wants first-class
 - [ ] **8. Voice stays in the base** (Vosk + edge-tts) - already core; keep.
