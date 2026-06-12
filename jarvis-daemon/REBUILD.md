@@ -11,12 +11,13 @@ Decisions: **Sandbox = Docker** | **Memory = sqlite-vec + local Ollama embedding
       `router.call()`; untrusted (direct-API) calls are authority-gated + audited;
       agent calls pass `{trusted:true}`. TESTED: read_file passes, delete_file blocked,
       agents unaffected.
-- [~] **3. Sandbox execution by default** -> `src/sandbox.ts` (Docker: no network,
+- [x] **3. Sandbox execution by default** -> `src/sandbox.ts` (Docker: no network,
       read-only rootfs, cpu/mem/pids/time limits; refuses if Docker absent - no host
-      fallback). `run_shell` rewired + OFF by default. TESTED: shell refuses without
-      opt-in. DOCKER INSTALL FAILED (winget exit -5; not installed). RETRY: download
-      Docker Desktop from docker.com, run AS ADMIN; needs WSL2 + BIOS virtualization.
-      Sandbox refuses meanwhile (secure default) - does NOT block Steps 4-14.
+      fallback). `run_shell` rewired + OFF by default. DOCKER NOW INSTALLED (Desktop
+      v29.5.3, WSL 2.7.8). TESTED END-TO-END: hello-world ok; python3 exec -> 42;
+      network BLOCKED (--network none -> NO_NETWORK); rootfs READ-ONLY (/etc write
+      fails, /work tmpfs ok); run_shell via /api/mcp/call returns {sandboxed:true}.
+      Daemon restored to secure default (shell OFF) after the test.
 - [x] **4. Guardrail primitives** -> `src/guardrails.ts`: dry-run mode (mutating tools
       return a {dryRun} preview), per-tool token-bucket rate limits (30 burst / 30·min⁻¹),
       file path allowlist, shell-off-by-default. Toggle via `/api/kernel/dryrun`; inspect
@@ -68,8 +69,10 @@ Decisions: **Sandbox = Docker** | **Memory = sqlite-vec + local Ollama embedding
       "what's built on it".
 - [ ] **13. Record the real product** (orb/pill) for authentic proof. [NEEDS USER -
       requires running the live UI + screen recording on the user's machine.]
-- [ ] **14. (Later) Monetization** - kernel free; paid = hosted/managed or enterprise
-      security tier (open-core).
+- [~] **14. (Later) Monetization** - DRAFTED `MONETIZATION.md` (internal, NOT public):
+      open-core plan — kernel free forever; paid = hosted/managed SaaS + enterprise
+      security tier (signed audit export, RBAC/SSO, policy-as-code, compliance). Open
+      question left for user: hosted-SaaS-first vs enterprise-license-first. No code.
 
 ## Next
 Steps 1-12 DONE + tested + pushed to github.com/m-binimran/project-jarvis (the
