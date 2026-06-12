@@ -8,9 +8,10 @@ out/
 .vite/
 *.tsbuildinfo
 
-# Logs
+# Logs & runtime artifacts
 *.log
 *.err
+*.pid
 logs/
 
 # Secrets & local config — NEVER commit these

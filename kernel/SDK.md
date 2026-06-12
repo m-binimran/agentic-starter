@@ -1,6 +1,6 @@
-# Build your own agent — the JARVIS kernel SDK
+# Build your own agent — the Agentic Starter kernel SDK
 
-JARVIS is **the secure agent kernel**: a minimal, secure-by-default base that any
+The Agentic Starter is **the secure agent kernel**: a minimal, secure-by-default base that any
 agent harness can build on. You don't get a framework that *can* be made safe —
 you get one you can't easily make unsafe. Every tool call travels the same trunk:
 

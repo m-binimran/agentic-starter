@@ -1,6 +1,6 @@
 # Privacy & telemetry — the guarantee
 
-JARVIS is **local-first, bring-your-own-key, and zero-telemetry**. This is a core
+The Agentic Starter is **local-first, bring-your-own-key, and zero-telemetry**. This is a core
 property of the kernel, not a setting. This document states the guarantee and
 shows you how to verify it yourself — don't take our word for it.
 
@@ -19,7 +19,7 @@ shows you how to verify it yourself — don't take our word for it.
 3. **Zero telemetry.** There is no analytics, tracking, crash reporting, or
    "phone-home" of any kind. No Segment, PostHog, Mixpanel, Amplitude, Sentry,
    Datadog, Google Analytics — none. The kernel never contacts an
-   Anthropic/JARVIS/author-owned server.
+   author-owned or vendor server.
 
 ## The complete outbound surface
 
@@ -30,7 +30,7 @@ The kernel (the lean trunk) only ever makes a network request to:
 | `localhost:11434` (Ollama) | model / embeddings, if you use Ollama | local inference | stays on device |
 | Your chosen LLM provider (NVIDIA NIM, OpenAI-compatible, Anthropic, Google, DeepSeek) | a model call, with **your** key | inference | yes — to the provider you picked, same as any LLM app |
 
-That's it. There is no destination you didn't choose. (The full JARVIS *app* adds
+That's it. There is no destination you didn't choose. (The optional demo *app* adds
 optional, explicitly user-connected integrations — Google Workspace via OAuth you
 grant, and an opt-in advisor-content scraper that reads public essay sites. Those
 are app branches, not the kernel, and they pull data **in**; none send your data

@@ -1,4 +1,4 @@
-# The JARVIS Kernel — the secure trunk every agent builds on
+# The Agentic Starter Kernel — the secure trunk every agent builds on
 
 Strip away the leaves and branches — voice, the orb, the workforce, Slack, connectors, the UI —
 and what's left is the **trunk**: the loop that lets a model take an action.
@@ -9,7 +9,7 @@ Everyone ships that loop as:
 model  ->  tool  ->  result            (open, unsafe — the agent can do anything)
 ```
 
-JARVIS ships it as:
+The Agentic Starter ships it as:
 
 ```
 model  ->  PERMISSION GATE  ->  SANDBOX  ->  tool  ->  AUDIT  ->  result
