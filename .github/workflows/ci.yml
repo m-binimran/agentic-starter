@@ -1,0 +1,36 @@
+name: CI
+
+# Keep the kernel sturdy: typecheck + the full invariant test suite on every push/PR.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  kernel:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: jarvis-daemon
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      # keytar (OS keychain) builds against libsecret on Linux.
+      - name: Install native deps for keytar
+        run: sudo apt-get update && sudo apt-get install -y libsecret-1-dev
+
+      - name: Install
+        run: npm install
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      # The sandbox isolation tests auto-skip if Docker is unavailable; GitHub's
+      # ubuntu runners have Docker, so they run for real here.
+      - name: Test (kernel invariants)
+        run: npm test

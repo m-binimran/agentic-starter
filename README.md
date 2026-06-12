@@ -147,10 +147,27 @@ JARVIS speaks the OpenAI-compatible chat API plus Google Gemini and Anthropic:
 
 Start from this base, keep what's useful, build your harness on top.
 
+## Tested — the invariants are locked
+
+A base is only useful if it's sturdy, so the security guarantees are covered by an
+automated suite (runs on every push via CI). It needs only Node — no extra tooling:
+
+```bash
+cd jarvis-daemon && npm test
+```
+
+It locks the things a fork must be able to trust: circuit breakers can't be
+prompted/overridden away, the chokepoint blocks untrusted dangerous calls, every
+call hits the audit chain, the audit chain is tamper-evident (and detects forgery),
+guardrails (dry-run / rate limit / path allowlist) fire, inputs are validated, the
+MCP gate holds, and — where Docker is present — the sandbox really has no network
+and a read-only rootfs. (Sandbox tests auto-skip if Docker isn't installed.)
+
 ## Contributing
 
 Issues and PRs welcome. This started as one person's tool and is shared as a
-foundation for others to build on — expect rough edges, and bring your own.
+foundation for others to build on — expect rough edges, and bring your own. Please
+keep `npm test` green.
 
 ## License
 

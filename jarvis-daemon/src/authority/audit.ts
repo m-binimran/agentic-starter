@@ -64,7 +64,9 @@ export class AuditTrail {
     try {
       const db = getDb();
       const row = db.query<{ chain_hash: string }, []>(
-        `SELECT chain_hash FROM audit_trail ORDER BY created_at DESC LIMIT 1`
+        // rowid tiebreaker: created_at (ms) can collide under rapid writes; rowid
+        // is the true insertion order, so the chain head is always deterministic.
+        `SELECT chain_hash FROM audit_trail ORDER BY created_at DESC, rowid DESC LIMIT 1`
       ).get();
       if (row) this.lastHash = row.chain_hash;
     } catch { /* fresh DB — stay at GENESIS */ }
@@ -148,7 +150,9 @@ export class AuditTrail {
       chain_hash: string;
       created_at: number;
     }, []>(
-      `SELECT id,action,payload,outcome,chain_hash,created_at FROM audit_trail ORDER BY created_at ASC`
+      // Same order the chain was written in — rowid breaks created_at (ms) ties,
+      // otherwise verify() can falsely report a valid chain as broken.
+      `SELECT id,action,payload,outcome,chain_hash,created_at FROM audit_trail ORDER BY created_at ASC, rowid ASC`
     ).all();
 
     let prevHash = "GENESIS";
