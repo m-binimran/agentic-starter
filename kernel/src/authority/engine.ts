@@ -1,5 +1,5 @@
 /**
- * JARVIS Authority Engine
+ * Agentic Starter Authority Engine
  *
  * Four permission modes. Circuit breakers that CANNOT be overridden.
  * A prompt cannot override a circuit breaker. Ever.

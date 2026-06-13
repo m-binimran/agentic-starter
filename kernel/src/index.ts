@@ -1,5 +1,5 @@
 /**
- * JARVIS Daemon — Entry Point
+ * Agentic Starter Daemon — Entry Point
  *
  * Boot sequence:
  *   1. Initialize SQLite DB (migrations run automatically)
@@ -11,7 +11,7 @@
  *   7. Boot sidecar manager
  *   8. Start Hono HTTP server on configured port
  *   9. Write startup audit record
- *  10. Print JARVIS banner
+ *  10. Print Agentic Starter banner
  */
 
 import { initDb } from "./vault/schema.ts";
@@ -175,7 +175,7 @@ async function boot() {
   });
 
   // 10. Ready banner
-  console.log(`\n  ✓ JARVIS daemon running at http://127.0.0.1:${cfg.daemonPort}`);
+  console.log(`\n  ✓ Agentic Starter daemon running at http://127.0.0.1:${cfg.daemonPort}`);
   console.log(`  ✓ ${agentCount} agents across ${deptCount} departments | Mode: ${cfg.mode}`);
   console.log(`  ✓ Browser MCP: Playwright (${mcpRouter.listTools().filter(t => t.name.startsWith("browser_")).length} browser tools)`);
   console.log(`  ✓ Audit chain: ACTIVE`);
@@ -183,11 +183,11 @@ async function boot() {
   console.log(`  ✓ A2A bus: ${a2aBus.getSubscribers().length} agents subscribed\n`);
 
   // 11. Slack — connect if bot+app tokens are configured (non-blocking; see SLACK-SETUP.md)
-  startSlack(orchestrator).then(ok => { if (ok) console.log("  ✓ Slack: connected — DM or @mention JARVIS"); }).catch(() => {});
+  startSlack(orchestrator).then(ok => { if (ok) console.log("  ✓ Slack: connected — DM or @mention Agentic Starter"); }).catch(() => {});
 
   // Graceful shutdown
   process.on("SIGINT", () => {
-    console.log("\n[shutdown] JARVIS daemon stopping...");
+    console.log("\n[shutdown] Agentic Starter daemon stopping...");
     audit.log({ action: "system_stop", payload: {} });
     serverClose();
     process.exit(0);

@@ -1,5 +1,5 @@
 /**
- * JARVIS Firewall — TS-native LlamaFirewall / NeMo Guardrails equivalent.
+ * Agentic Starter Firewall — TS-native LlamaFirewall / NeMo Guardrails equivalent.
  *
  * Four inline checks. Zero Python. Zero extra latency. Baked into the walls,
  * not standing at a separate door (Decision 10b).

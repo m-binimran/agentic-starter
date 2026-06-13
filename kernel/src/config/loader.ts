@@ -1,5 +1,5 @@
 /**
- * JARVIS Config Loader
+ * Agentic Starter Config Loader
  *
  * Reads settings from the DB (settings table), merges with runtime defaults,
  * and exposes a typed config object. API keys come from the keychain — never here.
@@ -13,7 +13,7 @@ import { OllamaProvider } from "../llm/ollama.ts";
 import { GoogleProvider } from "../llm/google.ts";
 import { makeOpenAI, makeDeepseek, makeNvidia } from "../llm/openai.ts";
 
-export interface JarvisConfig {
+export interface KernelConfig {
   mode: "basic" | "enterprise";
   primaryProvider: string;
   ollamaHost: string;
@@ -23,7 +23,7 @@ export interface JarvisConfig {
   threeStrikesLimit: number;
 }
 
-const DEFAULTS: JarvisConfig = {
+const DEFAULTS: KernelConfig = {
   mode: "basic",
   primaryProvider: "anthropic",
   ollamaHost: "http://localhost:11434",
@@ -45,9 +45,9 @@ function getSetting(key: string, fallback: string): string {
   }
 }
 
-export function loadConfig(): JarvisConfig {
+export function loadConfig(): KernelConfig {
   return {
-    mode: (getSetting("mode", DEFAULTS.mode) as JarvisConfig["mode"]),
+    mode: (getSetting("mode", DEFAULTS.mode) as KernelConfig["mode"]),
     primaryProvider: getSetting("primary_provider", DEFAULTS.primaryProvider),
     ollamaHost: getSetting("ollama_host", DEFAULTS.ollamaHost),
     daemonPort: parseInt(getSetting("daemon_port", String(DEFAULTS.daemonPort)), 10),

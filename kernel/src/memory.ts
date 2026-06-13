@@ -17,8 +17,8 @@
 import { getDb, generateId, now } from "./vault/schema.ts";
 import type { MCPConnector } from "./mcp/router.ts";
 
-const EMBED_URL = process.env.JARVIS_OLLAMA_URL || "http://localhost:11434";
-const EMBED_MODEL = process.env.JARVIS_EMBED_MODEL || "nomic-embed-text";
+const EMBED_URL = process.env.AGENTIC_OLLAMA_URL || "http://localhost:11434";
+const EMBED_MODEL = process.env.AGENTIC_EMBED_MODEL || "nomic-embed-text";
 
 let tableReady = false;
 function ensureTable(): void {

@@ -106,7 +106,7 @@ export class McpStdioClient {
     const init = await this.request("initialize", {
       protocolVersion: MCP_PROTOCOL_VERSION,
       capabilities: {},
-      clientInfo: { name: "jarvis-kernel", version: "0.1.0" },
+      clientInfo: { name: "agentic-starter", version: "0.1.0" },
     });
     if (init.error) throw new Error(`initialize failed: ${init.error.message}`);
     this.send("notifications/initialized");

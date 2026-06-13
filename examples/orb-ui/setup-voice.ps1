@@ -1,4 +1,4 @@
-# setup-voice.ps1 - one-time download of the offline voice model for "Hey Jarvis".
+# setup-voice.ps1 - one-time download of the offline voice model for "Hey Agentic Starter".
 #
 # Downloads a ~40 MB Vosk small-English model into .\models so speech-to-text
 # works fully offline (no API key, no cloud). Run once:
@@ -33,4 +33,4 @@ try {
 
 $mb = [math]::Round((Get-Item $file).Length / 1MB, 1)
 Write-Host "Done. Saved $mb MB to $file"
-Write-Host "Now open the talk box (Ctrl+Alt+Space), click the mic, and say 'Hey Jarvis'."
+Write-Host "Now open the talk box (Ctrl+Alt+Space), click the mic, and say 'Hey Agentic Starter'."

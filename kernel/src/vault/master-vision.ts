@@ -17,9 +17,9 @@ Replace this with what YOU are working toward:
 - Your #1 goal right now (and by when)
 - Your top 3 priorities
 - What you value (e.g. speed, quality, revenue, craft)
-- The question JARVIS should ask before every action (e.g. "Does this move me toward my goal?")
+- The question Agentic Starter should ask before every action (e.g. "Does this move me toward my goal?")
 
-You can change this any time in Settings, or just tell JARVIS: "update my vision".`;
+You can change this any time in Settings, or just tell Agentic Starter: "update my vision".`;
 
 export function getMasterVision(): MasterVision | null {
   const db = getDb();

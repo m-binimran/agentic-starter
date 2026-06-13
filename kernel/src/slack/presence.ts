@@ -1,5 +1,5 @@
 /**
- * Slack Presence Hub — gives every JARVIS agent its own identity in Slack.
+ * Slack Presence Hub — gives every Agentic Starter agent its own identity in Slack.
  *
  * Slack lets a single bot app post under different display names + avatars per
  * message via the `username` / `icon_emoji` overrides (scope: chat:write.customize).
@@ -30,7 +30,7 @@ const DEFAULT_EMOJI = ":speech_balloon:";
 /** Curated avatars per agent id. Unknown ids fall back to DEFAULT_EMOJI. */
 export const AGENT_EMOJI: Record<string, string> = {
   // Personal
-  jarvis: ":large_blue_diamond:",
+  coordinator: ":large_blue_diamond:",
   "research-agent": ":mag:",
   "task-agent": ":clipboard:",
   "comms-agent": ":envelope:",
@@ -93,8 +93,8 @@ export function buildPersonaMap(
     const id = `advisor-${adv.id}`;
     map.set(id, { id, name: adv.name, emoji: AGENT_EMOJI[id] ?? ":compass:" });
   }
-  if (!map.has("jarvis")) {
-    map.set("jarvis", { id: "jarvis", name: "JARVIS", emoji: AGENT_EMOJI.jarvis });
+  if (!map.has("coordinator")) {
+    map.set("coordinator", { id: "coordinator", name: "Agentic Starter", emoji: AGENT_EMOJI.coordinator });
   }
   return map;
 }
@@ -143,7 +143,7 @@ export function buildApprovalBlocks(
 }
 
 export class SlackPresenceHub {
-  /** Coordinator (JARVIS app) client — used for agents that have no app of their own. */
+  /** Coordinator (Agentic Starter app) client — used for agents that have no app of their own. */
   private web: WebClient;
   private personas: Map<string, AgentPersona>;
   /** agentId → that agent's OWN Slack app client. Present = real separate identity. */
@@ -285,7 +285,7 @@ export class SlackPresenceHub {
     const safeContext = filterOutput(context).sanitized || context || "";
     const blocks = buildApprovalBlocks(persona, action, safeContext, requestId);
     return this.postAsPersona(
-      "jarvis",
+      "coordinator",
       channel,
       `${persona.name} needs approval to ${action}`,
       { threadTs, blocks }

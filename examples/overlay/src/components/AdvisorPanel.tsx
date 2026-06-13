@@ -1,5 +1,5 @@
 /**
- * JARVIS Advisor Council Panel
+ * Agentic Starter Advisor Council Panel
  *
  * Pick a mentor, ask a question, hear it answered in their voice.
  *

@@ -70,7 +70,7 @@ export interface McpServerInfo {
 export async function handleMcpRequest(
   router: MCPRouter,
   msg: JsonRpcRequest,
-  info: McpServerInfo = { name: "jarvis-kernel", version: "0.1.0" }
+  info: McpServerInfo = { name: "agentic-starter", version: "0.1.0" }
 ): Promise<JsonRpcResponse | null> {
   if (!msg || msg.jsonrpc !== "2.0" || typeof msg.method !== "string") {
     return err(msg?.id ?? null, INVALID_REQUEST, "Invalid JSON-RPC 2.0 request");

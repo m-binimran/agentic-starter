@@ -13,10 +13,10 @@ test("remember stores and count reflects it", async () => {
 
 test("recall finds a relevant memory", async () => {
   const m = new Memory();
-  await m.remember("the public repo is github dot com slash m-binimran slash project-jarvis");
-  const hits = await m.recall("github repo project-jarvis", 3);
+  await m.remember("the public repo is github dot com slash m-binimran slash agentic-starter");
+  const hits = await m.recall("github repo agentic-starter", 3);
   assert.ok(hits.length >= 1);
-  assert.match(hits[0].text, /github|project-jarvis/);
+  assert.match(hits[0].text, /github|agentic-starter/);
 });
 
 test("forget removes a memory", async () => {

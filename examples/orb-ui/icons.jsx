@@ -45,7 +45,7 @@ const I = {
   cpu:     (p) => <Icon {...p} d="M6 6h12v12H6zM9 9h6v6H9zM3 9h3M3 15h3M18 9h3M18 15h3M9 3v3M15 3v3M9 18v3M15 18v3" />,
 };
 
-// JARVIS logo mark — hex with inner triangle (original, not licensed)
+// Agentic Starter logo mark — hex with inner triangle (original, not licensed)
 const LogoMark = ({ size = 16 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" style={{ display: "block" }}>
     <path d="M12 1.5L21.5 7v10L12 22.5 2.5 17V7z"

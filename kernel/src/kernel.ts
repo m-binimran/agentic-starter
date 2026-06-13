@@ -1,5 +1,5 @@
 /**
- * JARVIS — the secure agent kernel. Public SDK entry point.
+ * Agentic Starter — the secure agent kernel. Public SDK entry point.
  *
  * Build your own secure agent in ~20 lines. Everything routes through the same
  * trunk: model → PERMISSION GATE → guardrails → SANDBOX → tool → AUDIT → result.
@@ -7,8 +7,8 @@
  * rate-limited, optionally dry-run/path-confined, code/shell is sandboxed, and
  * every action is written to a tamper-evident audit chain. No bypass path.
  *
- *   import { createKernel, defineTool } from "jarvis-kernel";
- *   import { OllamaProvider } from "jarvis-kernel/llm";
+ *   import { createKernel, defineTool } from "agentic-starter";
+ *   import { OllamaProvider } from "agentic-starter/llm";
  *
  *   const k = createKernel({ llm: new OllamaProvider() });   // local, BYO key, $0
  *   k.addTool(defineTool({
@@ -18,7 +18,7 @@
  *   }));
  *   console.log(await k.run("What is 2 + 40?"));
  *
- * The full JARVIS app (orb, pill, Slack, workforce) is just one consumer of this
+ * The full Agentic Starter app (orb, pill, Slack, workforce) is just one consumer of this
  * kernel. This file is the base every harness can build on.
  */
 

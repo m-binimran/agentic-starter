@@ -17,7 +17,7 @@
 import { getKeychain } from "../../config/keychain.ts";
 import type { MCPConnector } from "../router.ts";
 
-const KEYCHAIN_NS  = "jarvis-google";
+const KEYCHAIN_NS  = "agentic-google";
 const REFRESH_KEY  = "google_refresh_token";
 const CREDS_KEY    = "google_oauth_creds";    // JSON { client_id, client_secret }
 

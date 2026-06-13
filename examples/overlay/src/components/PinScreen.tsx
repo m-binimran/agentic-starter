@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { jarvis } from '../lib/ipc'
+import { coordinator } from '../lib/ipc'
 
 interface Props {
   isFirstTime: boolean
@@ -52,7 +52,7 @@ export function PinScreen({ isFirstTime, onSuccess }: Props) {
         return
       }
       setLoading(true)
-      const res = await jarvis.setPin(pin)
+      const res = await coordinator.setPin(pin)
       if (res.success) {
         onSuccess()
       } else {
@@ -62,7 +62,7 @@ export function PinScreen({ isFirstTime, onSuccess }: Props) {
     } else {
       if (pin.length < 4) return
       setLoading(true)
-      const res = await jarvis.verifyPin(pin)
+      const res = await coordinator.verifyPin(pin)
       if (res.success) {
         onSuccess()
       } else {
@@ -88,7 +88,7 @@ export function PinScreen({ isFirstTime, onSuccess }: Props) {
               setConfirmPin('')
             } else {
               setLoading(true)
-              jarvis.setPin(pin).then(res => {
+              coordinator.setPin(pin).then(res => {
                 if (res.success) onSuccess()
                 else { setError(res.error || 'Failed to set PIN'); setLoading(false) }
               })
@@ -106,7 +106,7 @@ export function PinScreen({ isFirstTime, onSuccess }: Props) {
           } else {
             setTimeout(() => {
               setLoading(true)
-              jarvis.verifyPin(next).then(res => {
+              coordinator.verifyPin(next).then(res => {
                 if (res.success) onSuccess()
                 else { setError('Wrong PIN. Try again.'); setPin(''); setLoading(false) }
               })
@@ -122,7 +122,7 @@ export function PinScreen({ isFirstTime, onSuccess }: Props) {
   return (
     <div className="pin-screen">
       <div className="pin-logo">J</div>
-      <div className="pin-title">JARVIS</div>
+      <div className="pin-title">Agentic Starter</div>
       <div className="pin-subtitle">
         {isFirstTime
           ? step === 'enter' ? 'Set up your PIN' : 'Confirm your PIN'

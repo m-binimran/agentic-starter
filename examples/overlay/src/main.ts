@@ -9,7 +9,7 @@ import started from 'electron-squirrel-startup';
 if (started) app.quit();
 
 // ─── Config ────────────────────────────────────────────────────────────────
-const CONFIG_PATH = path.join(app.getPath('userData'), 'jarvis-config.json');
+const CONFIG_PATH = path.join(app.getPath('userData'), 'coordinator-config.json');
 
 function loadConfig(): { pinHash: string | null } {
   try { return JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf-8')); }
@@ -22,7 +22,7 @@ function saveConfig(cfg: { pinHash: string | null }) {
 }
 
 function hashPin(pin: string): string {
-  return crypto.createHash('sha256').update('jarvis-salt-' + pin).digest('hex');
+  return crypto.createHash('sha256').update('coordinator-salt-' + pin).digest('hex');
 }
 
 // ─── Allowed paths for file access ─────────────────────────────────────────
@@ -187,7 +187,7 @@ function createWindow() {
     else { win.show(); }
   });
 
-  // Grant microphone for the "Hey Jarvis" wake word
+  // Grant microphone for the "Hey Agentic Starter" wake word
   win.webContents.session.setPermissionRequestHandler((_wc, permission, cb) => {
     cb(permission === 'media' || permission === 'audioCapture');
   });
@@ -301,7 +301,7 @@ ipcMain.handle('exec:run', (_, executable: string, args: string[]) => {
 });
 
 // ─── Screen-annotation overlay ─────────────────────────────────────────────
-// A transparent, click-through, full-screen window that draws whatever JARVIS
+// A transparent, click-through, full-screen window that draws whatever Agentic Starter
 // puts on /api/annotate (highlights, arrows, "look here"). Invisible until used.
 let annotateWin: BrowserWindow | null = null;
 function ensureAnnotateWindow(): void {

@@ -1,5 +1,5 @@
 /**
- * JARVIS Enterprise Departments
+ * Agentic Starter Enterprise Departments
  *
  * Enterprise Mode agent hierarchy:
  *
@@ -47,7 +47,7 @@ function buildCEO(router: MCPRouter): AgentDefinition {
     id: "ceo",
     name: "CEO",
     role: "head",
-    systemPrompt: `You are the CEO agent of JARVIS Enterprise Mode.
+    systemPrompt: `You are the CEO agent of Agentic Starter Enterprise Mode.
 You are the strategic command layer. You think big picture.
 
 Your departments:
@@ -81,7 +81,7 @@ function buildMarketingLead(router: MCPRouter): AgentDefinition {
     id: "marketing-lead",
     name: "Marketing Lead",
     role: "team_lead",
-    systemPrompt: `You are the Marketing Lead for JARVIS Enterprise.
+    systemPrompt: `You are the Marketing Lead for Agentic Starter Enterprise.
 You own brand, content, social media, and growth.
 
 Your specialists:
@@ -105,7 +105,7 @@ function buildContentEnterpriseAgent(router: MCPRouter): AgentDefinition {
     id: "content-enterprise",
     name: "Content Specialist",
     role: "specialist",
-    systemPrompt: `You are the Content Specialist for JARVIS Enterprise Marketing.
+    systemPrompt: `You are the Content Specialist for Agentic Starter Enterprise Marketing.
 You produce high-quality long-form content: blog posts, articles, scripts, email newsletters.
 
 Process:
@@ -129,7 +129,7 @@ function buildSocialAgent(router: MCPRouter): AgentDefinition {
     id: "social-agent",
     name: "Social Media",
     role: "specialist",
-    systemPrompt: `You are the Social Media Specialist for JARVIS Enterprise.
+    systemPrompt: `You are the Social Media Specialist for Agentic Starter Enterprise.
 You write scroll-stopping posts for Twitter/X, LinkedIn, and Instagram.
 
 Principles:
@@ -153,7 +153,7 @@ function buildAnalyticsAgent(router: MCPRouter): AgentDefinition {
     id: "analytics-agent",
     name: "Analytics",
     role: "specialist",
-    systemPrompt: `You are the Analytics Specialist for JARVIS Enterprise.
+    systemPrompt: `You are the Analytics Specialist for Agentic Starter Enterprise.
 You analyse data, identify trends, and surface actionable insights.
 
 When given data:
@@ -179,7 +179,7 @@ function buildOpsLead(router: MCPRouter): AgentDefinition {
     id: "ops-lead",
     name: "Operations Lead",
     role: "team_lead",
-    systemPrompt: `You are the Operations Lead for JARVIS Enterprise.
+    systemPrompt: `You are the Operations Lead for Agentic Starter Enterprise.
 You own execution: projects, tasks, automation, and systems.
 
 Your specialists:
@@ -204,7 +204,7 @@ function buildProjectAgent(router: MCPRouter): AgentDefinition {
     id: "project-agent",
     name: "Project Manager",
     role: "specialist",
-    systemPrompt: `You are the Project Manager agent for JARVIS Enterprise.
+    systemPrompt: `You are the Project Manager agent for Agentic Starter Enterprise.
 You track projects, milestones, deadlines, and blockers.
 
 Always produce:
@@ -229,7 +229,7 @@ function buildAutomationAgent(router: MCPRouter): AgentDefinition {
     id: "automation-agent",
     name: "Automation",
     role: "specialist",
-    systemPrompt: `You are the Automation Specialist for JARVIS Enterprise.
+    systemPrompt: `You are the Automation Specialist for Agentic Starter Enterprise.
 You identify repetitive processes and turn them into automated workflows.
 
 When asked to automate something:
@@ -258,7 +258,7 @@ function buildFinanceLead(router: MCPRouter): AgentDefinition {
     id: "finance-lead",
     name: "Finance Lead",
     role: "team_lead",
-    systemPrompt: `You are the Finance & Admin Lead for JARVIS Enterprise.
+    systemPrompt: `You are the Finance & Admin Lead for Agentic Starter Enterprise.
 You own budgets, financial tracking, documents, and admin tasks.
 
 Your specialists:
@@ -282,7 +282,7 @@ function buildBudgetAgent(router: MCPRouter): AgentDefinition {
     id: "budget-agent",
     name: "Budget Tracker",
     role: "specialist",
-    systemPrompt: `You are the Budget & Finance agent for JARVIS Enterprise.
+    systemPrompt: `You are the Budget & Finance agent for Agentic Starter Enterprise.
 You track revenue, expenses, cash flow, and financial KPIs.
 
 Format all numbers consistently. Always show:
@@ -306,7 +306,7 @@ function buildDocsAgent(router: MCPRouter): AgentDefinition {
     id: "docs-agent",
     name: "Documents",
     role: "specialist",
-    systemPrompt: `You are the Documents & Admin agent for JARVIS Enterprise.
+    systemPrompt: `You are the Documents & Admin agent for Agentic Starter Enterprise.
 You draft, review, and manage business documents: proposals, contracts, reports.
 
 Always produce clean, professional documents.

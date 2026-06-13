@@ -338,7 +338,7 @@ function WorkspacePanel({ kind, onClose }) {
   const [q, setQ]               = React.useState("");
   const [thread, setThread]     = React.useState([]);
   const [busy, setBusy]         = React.useState(false);
-  const loadThread = (id) => { try { return JSON.parse(localStorage.getItem("jarvis_adv_" + id) || "[]"); } catch { return []; } };
+  const loadThread = (id) => { try { return JSON.parse(localStorage.getItem("agentic_adv_" + id) || "[]"); } catch { return []; } };
 
   React.useEffect(() => {
     fetch(`${window.DAEMON_URL}/api/agents`).then(r => r.json()).then(d => setAgents(d.agents || [])).catch(() => {});
@@ -361,7 +361,7 @@ function WorkspacePanel({ kind, onClose }) {
         clearInterval(reveal);
         const finalThread = [...prior, { role: "user", text: question }, { role: "advisor", text: target || "(no reply)" }];
         setThread(finalThread);
-        try { localStorage.setItem("jarvis_adv_" + adv.id, JSON.stringify(finalThread)); } catch (_) {}
+        try { localStorage.setItem("agentic_adv_" + adv.id, JSON.stringify(finalThread)); } catch (_) {}
         setBusy(false);
       }
     }, 16);
@@ -443,7 +443,7 @@ function SettingsPanel({ onClose }) {
   const [keys, setKeys]     = React.useState([]);
   const [inputs, setInputs] = React.useState({});
   const [saved, setSaved]   = React.useState({});
-  const [eleven, setEleven] = React.useState(() => localStorage.getItem("jarvis_elevenlabs_key") || "");
+  const [eleven, setEleven] = React.useState(() => localStorage.getItem("agentic_elevenlabs_key") || "");
 
   const reload = () => fetch(`${window.DAEMON_URL}/api/keys`).then(r => r.json()).then(d => setKeys(d.keys || [])).catch(() => {});
   React.useEffect(() => { reload(); }, []);
@@ -457,7 +457,7 @@ function SettingsPanel({ onClose }) {
       if (d.success) { setSaved(s => ({ ...s, [p]: true })); setInputs(i => ({ ...i, [p]: "" })); reload(); setTimeout(() => setSaved(s => ({ ...s, [p]: false })), 2000); }
     } catch (_) {}
   };
-  const saveEleven = () => { localStorage.setItem("jarvis_elevenlabs_key", eleven.trim()); setSaved(s => ({ ...s, eleven: true })); setTimeout(() => setSaved(s => ({ ...s, eleven: false })), 2000); };
+  const saveEleven = () => { localStorage.setItem("agentic_elevenlabs_key", eleven.trim()); setSaved(s => ({ ...s, eleven: true })); setTimeout(() => setSaved(s => ({ ...s, eleven: false })), 2000); };
 
   const PROVS = [
     { id: "nvidia",    name: "NVIDIA",             hint: "nvapi-…",   url: "https://build.nvidia.com", note: "Free credits — recommended" },
@@ -495,14 +495,14 @@ function SettingsPanel({ onClose }) {
         ))}
 
         <div className="mono upper" style={{ fontSize: 9, color: "var(--subtext)", letterSpacing: ".14em", margin: "18px 0 6px" }}>Voice (optional)</div>
-        <div style={{ fontSize: 11, color: "var(--muted)", marginBottom: 6 }}>JARVIS already speaks for free. Add an ElevenLabs key only if you want a premium voice.</div>
+        <div style={{ fontSize: 11, color: "var(--muted)", marginBottom: 6 }}>Agentic Starter already speaks for free. Add an ElevenLabs key only if you want a premium voice.</div>
         <div style={{ display: "flex", gap: 6 }}>
           <input type="password" value={eleven} onChange={e => setEleven(e.target.value)} onKeyDown={e => { if (e.key === "Enter") saveEleven(); }} placeholder="ElevenLabs key (optional)…" style={inp} />
           <button onClick={saveEleven} style={btn}>{saved.eleven ? "✓" : "Save"}</button>
         </div>
 
         <div className="mono upper" style={{ fontSize: 9, color: "var(--subtext)", letterSpacing: ".14em", margin: "18px 0 6px" }}>Slack (optional)</div>
-        <div style={{ fontSize: 11, color: "var(--muted)", marginBottom: 6 }}>Talk to JARVIS in Slack. Add both tokens (see SLACK-SETUP.md), then DM or @mention the bot.</div>
+        <div style={{ fontSize: 11, color: "var(--muted)", marginBottom: 6 }}>Talk to Agentic Starter in Slack. Add both tokens (see SLACK-SETUP.md), then DM or @mention the bot.</div>
         {[{ id: "slack_bot_token", label: "Bot token — xoxb-…" }, { id: "slack_app_token", label: "App token — xapp-…" }].map(s => (
           <div key={s.id} style={{ display: "flex", gap: 6, marginBottom: 6 }}>
             <input type="password" value={inputs[s.id] || ""} onChange={e => setInputs(i => ({ ...i, [s.id]: e.target.value }))} onKeyDown={e => { if (e.key === "Enter") saveKey(s.id); }} placeholder={has(s.id) ? "Replace…" : s.label} style={inp} />
@@ -550,7 +550,7 @@ function App() {
       {!daemonOnline && (
         <div style={{ background: "var(--bad)", color: "#fff", fontSize: 11, padding: "6px 16px", flexShrink: 0, display: "flex", gap: 8 }}>
           <b>DAEMON OFFLINE</b>
-          <span style={{ opacity: .8 }}>— run: <code>node --experimental-strip-types src/index.ts</code> in jarvis-daemon</span>
+          <span style={{ opacity: .8 }}>— run: <code>node --experimental-strip-types src/index.ts</code> in coordinator-daemon</span>
         </div>
       )}
       {/* Orb — full remaining height */}

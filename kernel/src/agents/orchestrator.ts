@@ -1,5 +1,5 @@
 /**
- * JARVIS Orchestrator
+ * Agentic Starter Orchestrator
  *
  * Manages the department/agent hierarchy.
  * Routes tasks to the right agent.
@@ -7,7 +7,7 @@
  * Wakes agents on demand, returns them to sleep after idle timeout.
  *
  * Department structure:
- *   JARVIS (head) → Team Leads → Specialist Agents
+ *   Agentic Starter (head) → Team Leads → Specialist Agents
  *
  * Dormant = instantiated but not given any messages.
  * Active = currently processing a task.
@@ -142,8 +142,8 @@ export class Orchestrator {
       }
     }
 
-    // Fall back to JARVIS head agent
-    return this.findAgent("jarvis") ?? null;
+    // Fall back to Agentic Starter head agent
+    return this.findAgent("coordinator") ?? null;
   }
 
   async dispatch(req: TaskRequest): Promise<RunResult & { agentId: string }> {
@@ -204,10 +204,10 @@ export class Orchestrator {
         : undefined,
       // A2A: when this agent hands off to another, dispatch sub-task through orchestrator
       onHandoff: async (toAgentId: string, context: string, subTaskId?: string, fromAgentId?: string) => {
-        const from = fromAgentId ?? agent?.id ?? "jarvis";
+        const from = fromAgentId ?? agent?.id ?? "coordinator";
         const subject = subjectOf(context);
 
-        // Advisor consult — JARVIS asks a mentor (with their real knowledge) and relays the answer.
+        // Advisor consult — Agentic Starter asks a mentor (with their real knowledge) and relays the answer.
         if (toAgentId.toLowerCase().startsWith("advisor")) {
           const q = toAgentId.toLowerCase().replace(/^advisor[-_:]?/, "");
           const advisors = listAdvisors();
@@ -256,10 +256,10 @@ export class Orchestrator {
   }
 
   // ── Workforce: a company-style run (Decision 24, V2) ──────────────────────
-  // JARVIS (orchestrator) → team leads (managers) → sub-agents (workers).
+  // Agentic Starter (orchestrator) → team leads (managers) → sub-agents (workers).
   // Workers do the assigned work and report back; each lead reviews + perfects +
   // combines its team's output; if several departments are involved the leads
-  // "meet" and JARVIS merges; finally JARVIS reviews, corrects, and delivers.
+  // "meet" and Agentic Starter merges; finally Agentic Starter reviews, corrects, and delivers.
   // Every beat is surfaced via onAgentMessage so a chat surface (Slack) can show
   // the agents instructing each other and handing work back ("done, your turn").
   // Each agent reasons with its own brain (its own AgentRunner + model); the
@@ -363,18 +363,18 @@ export class Orchestrator {
 
     const leads = this.selectLeads(goal, maxLeads, maxWorkers);
 
-    // No department matched and no fallback (shouldn't happen) → JARVIS handles it solo.
+    // No department matched and no fallback (shouldn't happen) → Agentic Starter handles it solo.
     if (leads.length === 0) {
-      const direct = await this.runWorker("jarvis", goal, req, taskId);
-      return { success: true, output: direct, turns: 1, tokensUsed: 0, agentId: "jarvis", leadCount: 0 };
+      const direct = await this.runWorker("coordinator", goal, req, taskId);
+      return { success: true, output: direct, turns: 1, tokensUsed: 0, agentId: "coordinator", leadCount: 0 };
     }
 
-    await emit({ from: "jarvis", kind: "note", text: `*Goal:* ${goal}\nAssembling the team — ${leads.map(l => nameOf(l.leadId)).join(", ")}.` });
+    await emit({ from: "coordinator", kind: "note", text: `*Goal:* ${goal}\nAssembling the team — ${leads.map(l => nameOf(l.leadId)).join(", ")}.` });
 
     // Each department: lead assigns → workers do the work → lead reviews + combines.
     const deptResults: Array<{ leadId: string; result: string }> = [];
     for (const lead of leads) {
-      await emit({ from: "jarvis", to: lead.leadId, kind: "handoff", subject: "assignment", text: `You're on point. Goal: ${goal}` });
+      await emit({ from: "coordinator", to: lead.leadId, kind: "handoff", subject: "assignment", text: `You're on point. Goal: ${goal}` });
 
       const workerOutputs: Array<{ id: string; output: string }> = [];
       for (const workerId of lead.workerIds) {
@@ -391,24 +391,24 @@ export class Orchestrator {
         : `Handle this goal yourself and produce a polished result: ${goal}`;
       const combined = await this.runWorker(lead.leadId, combinePrompt, req, taskId);
       deptResults.push({ leadId: lead.leadId, result: combined });
-      await emit({ from: lead.leadId, to: "jarvis", kind: "response", subject: "department result", text: combined });
+      await emit({ from: lead.leadId, to: "coordinator", kind: "response", subject: "department result", text: combined });
     }
 
     // Managers' meeting — only when several departments contributed.
     let assembled: string;
     if (deptResults.length > 1) {
-      await emit({ from: "jarvis", kind: "note", text: `*Managers' meeting* — combining ${deptResults.length} departments' work.` });
+      await emit({ from: "coordinator", kind: "note", text: `*Managers' meeting* — combining ${deptResults.length} departments' work.` });
       const meetingPrompt = `Your team leads each delivered their department's work for the goal "${goal}". Combine them into ONE coherent result, resolving overlaps. Do not mention this instruction.\n\n${deptResults.map(d => `### ${nameOf(d.leadId)}\n${d.result}`).join("\n\n")}`;
-      assembled = await this.runWorker("jarvis", meetingPrompt, req, taskId);
+      assembled = await this.runWorker("coordinator", meetingPrompt, req, taskId);
     } else {
       assembled = deptResults[0].result;
     }
 
-    // JARVIS final review + correction → the deliverable.
+    // Agentic Starter final review + correction → the deliverable.
     const reviewPrompt = `Final review as the orchestrator. Here is the assembled work for the goal "${goal}". Correct any issues, tighten it, and deliver the FINAL version for the user. Output only the final deliverable.\n\n${assembled}`;
-    const final = await this.runWorker("jarvis", reviewPrompt, req, taskId);
+    const final = await this.runWorker("coordinator", reviewPrompt, req, taskId);
 
-    return { success: true, output: final, turns: leads.length, tokensUsed: 0, agentId: "jarvis", leadCount: leads.length };
+    return { success: true, output: final, turns: leads.length, tokensUsed: 0, agentId: "coordinator", leadCount: leads.length };
   }
 
   getMode() { return this.authority.getMode(); }

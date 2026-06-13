@@ -62,7 +62,7 @@ export function VoiceIndicator({ onSendMessage, onSpeak }: Props) {
       <button
         className={`voice-btn ${enabled ? 'voice-on' : ''} ${isActive ? 'voice-active' : ''}`}
         onClick={toggle}
-        title={enabled ? 'Voice on — say "Jarvis" to activate. Click to disable.' : 'Enable voice — say "Jarvis" to activate'}
+        title={enabled ? 'Voice on — say "Agentic Starter" to activate. Click to disable.' : 'Enable voice — say "Agentic Starter" to activate'}
       >
         {voiceStateIcon(enabled ? state : 'idle')}
       </button>

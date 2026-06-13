@@ -22,7 +22,7 @@ export function isMutating(category: string): boolean {
 }
 
 // ── Dry-run ──────────────────────────────────────────────────────────────────
-let _dryRun = process.env.JARVIS_DRY_RUN === "1" || process.env.JARVIS_DRY_RUN === "true";
+let _dryRun = process.env.AGENTIC_DRY_RUN === "1" || process.env.AGENTIC_DRY_RUN === "true";
 export function isDryRun(): boolean { return _dryRun; }
 export function setDryRun(on: boolean): void { _dryRun = !!on; }
 

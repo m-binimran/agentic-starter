@@ -1,12 +1,12 @@
 /**
- * voice.js — "Hey Jarvis" hands-free voice input for the talk box.
+ * voice.js — "Hey Agentic Starter" hands-free voice input for the talk box.
  *
  * WHY THIS EXISTS: Electron's bundled Chromium has no Google speech key, so the
  * usual `webkitSpeechRecognition` just silently fails — that's why talking to
- * JARVIS never worked. Here we do speech-to-text fully OFFLINE with Vosk (WASM):
+ * Agentic Starter never worked. Here we do speech-to-text fully OFFLINE with Vosk (WASM):
  * no API key, no cloud, works on a plane, free forever.
  *
- * FLOW: always-listen for the wake word "jarvis" → then capture the next
+ * FLOW: always-listen for the wake word "coordinator" → then capture the next
  * sentence as a command → hand it to the talk box. If the mic or model isn't
  * available it degrades to plain typing and shows why — it never throws into UI.
  *
@@ -19,7 +19,7 @@
 
 const VOSK_ESM   = "https://cdn.jsdelivr.net/npm/vosk-browser@0.0.8/+esm";
 const MODEL_URL  = "/models/vosk-model-small-en-us-0.15.tar.gz";
-const WAKE       = /\b(?:hey |ok |okay |hi )?jarvis\b/i;
+const WAKE       = /\b(?:hey |ok |okay |hi )?coordinator\b/i;
 const SAMPLE_RATE = 16000;
 
 // Public state the talk box can read at any time.
@@ -34,7 +34,7 @@ let ptt = { active: false, finals: "", partial: "", onPartial: null };
 /** Register UI callbacks: { status(state, text), partial(text), command(text) }. */
 export function onVoice(handlers) { cb = { ...cb, ...handlers }; }
 
-/** Ignore mic input while true — used so JARVIS doesn't hear its own spoken reply. */
+/** Ignore mic input while true — used so Agentic Starter doesn't hear its own spoken reply. */
 export function setMuted(m) { voice.muted = !!m; }
 
 function status(state, text) { try { cb.status(state, text); } catch (_) {} }
@@ -106,7 +106,7 @@ export async function start() {
   try { await startMic(); }
   catch (e) { status("error", "No microphone access (" + (e && e.message || e) + ")."); return; }
   voice.available = true; voice.listening = true; voice.awake = false;
-  status("idle", "Listening for “Hey Jarvis”…");
+  status("idle", "Listening for “Hey Agent”…");
 }
 
 export function stop() {
@@ -148,9 +148,9 @@ function handleFinal(text) {
 
   if (!voice.awake) {
     const m = WAKE.exec(t);
-    if (!m) return;                               // still waiting for "...jarvis..."
+    if (!m) return;                               // still waiting for "...coordinator..."
     const after = t.slice(m.index + m[0].length).trim();
-    if (after.length >= 2) dispatch(after);       // "hey jarvis what's the time" — all in one breath
+    if (after.length >= 2) dispatch(after);       // "hey coordinator what's the time" — all in one breath
     else { voice.awake = true; status("awake", "Yes? I'm listening…"); }
     return;
   }
@@ -160,6 +160,6 @@ function handleFinal(text) {
 
 function dispatch(command) {
   voice.awake = false;
-  status("idle", "Listening for “Hey Jarvis”…");
+  status("idle", "Listening for “Hey Agent”…");
   try { cb.command(command); } catch (_) {}
 }

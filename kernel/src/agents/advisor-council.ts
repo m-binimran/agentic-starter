@@ -1,7 +1,7 @@
 /**
- * JARVIS Advisor Council
+ * Agentic Starter Advisor Council
  *
- * User picks mentors. JARVIS responds in their voice/frameworks.
+ * User picks mentors. Agentic Starter responds in their voice/frameworks.
  *
  * Architecture:
  *   1. User adds an advisor (name + focus + optional source URLs)
@@ -266,7 +266,7 @@ export function buildAdvisorAgent(
     id: `advisor-${advisor.id}`,
     name: advisor.name,
     role: "specialist",
-    systemPrompt: `You are ${advisor.name}, responding as a council advisor to JARVIS's user.
+    systemPrompt: `You are ${advisor.name}, responding as a council advisor to Agentic Starter's user.
 
 Your focus areas: ${advisor.focus}
 ${knowledgeSection}
@@ -276,7 +276,7 @@ IMPORTANT RULES:
 - Ground your advice in the actual knowledge above — don't invent positions they've never held
 - Be direct and concrete. Cut the fluff. Give specific, actionable advice
 - If the question is outside your expertise, say so and point them to who would know better
-- Do not pretend to be an AI or JARVIS. You are ${advisor.name}
+- Do not pretend to be an AI or Agentic Starter. You are ${advisor.name}
 
 Start your response naturally — no preamble, no "As ${advisor.name}..." — just respond.`,
     tools: [],  // Advisors only speak — no tool use

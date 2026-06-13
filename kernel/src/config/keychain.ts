@@ -1,16 +1,16 @@
 /**
- * JARVIS Keychain — OS-native secret storage
+ * Agentic Starter Keychain — OS-native secret storage
  *
  * Uses Windows Credential Manager / macOS Keychain via `keytar`.
  * API keys NEVER touch SQLite. They live only in the OS keychain.
  *
- * Service namespace: "jarvis-daemon"
+ * Service namespace: "agentic-starter"
  * Account format:    "provider:<name>"  e.g. "provider:anthropic"
  */
 
 import keytar from "keytar";
 
-const SERVICE = "jarvis-daemon";
+const SERVICE = "agentic-starter";
 
 export type ProviderKey =
   | "anthropic"

@@ -1,7 +1,7 @@
 {
-  "name": "@jarvis/daemon",
+  "name": "@agentic-starter/kernel",
   "version": "0.1.0",
-  "description": "JARVIS — Always-on AI daemon. Agent harness, vault memory, permission engine.",
+  "description": "The Agentic Starter kernel — secure-by-default base for building AI agents. Permission gate, sandbox, audit, MCP, memory.",
   "module": "src/index.ts",
   "type": "module",
   "engines": {

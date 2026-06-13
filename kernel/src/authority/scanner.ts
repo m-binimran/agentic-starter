@@ -1,5 +1,5 @@
 /**
- * JARVIS Prompt Injection Scanner
+ * Agentic Starter Prompt Injection Scanner
  * TypeScript equivalent of LlamaFirewall / PromptGuard 2.
  *
  * Runs on every incoming user message before it reaches any agent.
@@ -40,7 +40,7 @@ const JAILBREAK_PATTERNS = [
   /###\s*instruction/i,
 ];
 
-// Attempts to make JARVIS skip circuit breakers or permission checks
+// Attempts to make Agentic Starter skip circuit breakers or permission checks
 const CIRCUIT_BYPASS_PATTERNS = [
   /do\s+not\s+ask\s+(?:me\s+for\s+)?(?:permission|confirmation|approval)/i,
   /skip\s+(?:the\s+)?(?:approval|confirmation|permission|verification)/i,
@@ -51,7 +51,7 @@ const CIRCUIT_BYPASS_PATTERNS = [
   /trust\s+me[,\s]+just\s+do/i,
 ];
 
-// Prompt injection via data — instructions embedded in content JARVIS is processing
+// Prompt injection via data — instructions embedded in content Agentic Starter is processing
 const INJECTION_PATTERNS = [
   /\[(?:new|hidden|secret)\s+instruction/i,
   /<!--\s*SYSTEM:/i,

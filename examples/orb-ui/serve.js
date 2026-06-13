@@ -1,4 +1,4 @@
-// serve.js — simple static file server for the JARVIS frontend
+// serve.js — simple static file server for the Agentic Starter frontend
 // Usage: node serve.js
 // Opens at http://localhost:3020
 
@@ -50,8 +50,8 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(PORT, "127.0.0.1", () => {
-  console.log(`\n  JARVIS Frontend running at http://127.0.0.1:${PORT}\n`);
+  console.log(`\n  Agentic Starter Frontend running at http://127.0.0.1:${PORT}\n`);
   console.log(`  Make sure the daemon is running:`);
-  console.log(`  cd "C:/Users/user/Claude apps/jarvis-daemon"`);
+  console.log(`  cd "C:/Users/user/Claude apps/coordinator-daemon"`);
   console.log(`  node --experimental-strip-types src/index.ts\n`);
 });

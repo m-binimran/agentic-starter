@@ -7,5 +7,5 @@ import { initDatabase } from "../src/vault/schema.ts";
 import os from "node:os";
 import path from "node:path";
 
-const tmp = path.join(os.tmpdir(), `jarvis-test-${process.pid}-${Date.now()}.db`);
+const tmp = path.join(os.tmpdir(), `agentic-test-${process.pid}-${Date.now()}.db`);
 initDatabase(tmp);

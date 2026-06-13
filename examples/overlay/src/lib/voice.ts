@@ -1,16 +1,16 @@
 /**
- * JARVIS Voice Layer
+ * Agentic Starter Voice Layer
  *
- * Wake word: "Jarvis" — continuous listening via Web Speech API
+ * Wake word: "Agentic Starter" — continuous listening via Web Speech API
  *            (built into Electron's Chromium, zero native deps, works on Windows)
  *
  * TTS: Web Speech API SpeechSynthesis for instant response
  *      Falls back to Edge TTS (higher quality) when available via daemon
  *
- * Decision 22: Voice IS the experience. "Jarvis" → listens → responds spoken.
+ * Decision 22: Voice IS the experience. "Agentic Starter" → listens → responds spoken.
  */
 
-const WAKE_WORDS = ["jarvis", "hey jarvis", "ok jarvis"];
+const WAKE_WORDS = ["coordinator", "hey coordinator", "ok coordinator"];
 const DAEMON_URL = "http://127.0.0.1:9101";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -19,7 +19,7 @@ export type VoiceState =
   | "idle"          // listening for wake word silently
   | "wake"          // wake word detected, showing indicator
   | "listening"     // capturing user command
-  | "processing"    // sending to JARVIS
+  | "processing"    // sending to Agentic Starter
   | "speaking"      // reading response aloud
   | "error";        // mic access denied or API error
 

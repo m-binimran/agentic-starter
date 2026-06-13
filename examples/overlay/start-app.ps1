@@ -1,16 +1,16 @@
-# JARVIS native app launcher — starts the brain (daemon) + the pill overlay.
+# Agentic Starter native app launcher — starts the brain (daemon) + the pill overlay.
 # Requires Node.js 22+. Optional: Ollama for free local AI.
 
 $ErrorActionPreference = "Stop"
 $overlayDir = $PSScriptRoot
-$daemonDir  = Join-Path (Split-Path $PSScriptRoot -Parent) "jarvis-daemon"
+$daemonDir  = Join-Path (Split-Path $PSScriptRoot -Parent) "coordinator-daemon"
 
 function Test-Url($u) {
   try { $null = Invoke-WebRequest -Uri $u -TimeoutSec 2 -UseBasicParsing; return $true } catch { return $false }
 }
 
 Write-Host ""
-Write-Host "  ===== Starting JARVIS (native app) =====" -ForegroundColor Cyan
+Write-Host "  ===== Starting Agentic Starter (native app) =====" -ForegroundColor Cyan
 Write-Host ""
 
 if (-not (Get-Command node -ErrorAction SilentlyContinue)) {
@@ -28,7 +28,7 @@ if (Get-Command ollama -ErrorAction SilentlyContinue) {
 
 # Daemon (the brain)
 if (-not (Test-Url "http://127.0.0.1:9101/health")) {
-  Write-Host "  Starting JARVIS daemon..." -ForegroundColor DarkGray
+  Write-Host "  Starting Agentic Starter daemon..." -ForegroundColor DarkGray
   Start-Process -FilePath node -ArgumentList '--experimental-strip-types','src/index.ts' -WorkingDirectory $daemonDir -WindowStyle Minimized
 }
 $ok = $false
@@ -38,15 +38,15 @@ Write-Host "  Daemon online." -ForegroundColor Green
 
 # Frontend (the polished UI shown inside the app window when the pill is clicked)
 if (-not (Test-Url "http://127.0.0.1:3020")) {
-  Write-Host "  Starting JARVIS interface..." -ForegroundColor DarkGray
-  $frontendDir = Join-Path (Split-Path $PSScriptRoot -Parent) "jarvis-frontend"
+  Write-Host "  Starting Agentic Starter interface..." -ForegroundColor DarkGray
+  $frontendDir = Join-Path (Split-Path $PSScriptRoot -Parent) "coordinator-frontend"
   Start-Process -FilePath node -ArgumentList 'serve.js' -WorkingDirectory $frontendDir -WindowStyle Minimized
   for ($i = 0; $i -lt 15; $i++) { if (Test-Url "http://127.0.0.1:3020") { break }; Start-Sleep -Seconds 1 }
 }
 Write-Host "  Interface online." -ForegroundColor Green
 
 # The pill overlay (stays in the foreground of THIS window — keeps the app alive).
-Write-Host "  Launching the JARVIS pill (top-center of your screen)..." -ForegroundColor Green
-Write-Host "  Keep this window open while you use JARVIS. Close it to quit." -ForegroundColor DarkGray
+Write-Host "  Launching the Agentic Starter pill (top-center of your screen)..." -ForegroundColor Green
+Write-Host "  Keep this window open while you use Agentic Starter. Close it to quit." -ForegroundColor DarkGray
 Set-Location $overlayDir
 npm start

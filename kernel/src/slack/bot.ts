@@ -1,12 +1,12 @@
 /**
- * Slack bot — JARVIS runs as a multi-agent **workforce** in Slack (Decision 24, V2).
+ * Slack bot — Agentic Starter runs as a multi-agent **workforce** in Slack (Decision 24, V2).
  *
  * The company model:
- *   - JARVIS is the orchestrator. It assigns work to **team leads** (managers).
+ *   - Agentic Starter is the orchestrator. It assigns work to **team leads** (managers).
  *   - Each lead briefs its **sub-agents** (workers); the workers do the work and
  *     report back ("done, your turn"); the lead reviews + perfects + combines.
- *   - If several departments are involved, the leads "meet" and JARVIS merges.
- *   - JARVIS does the final review, corrects, and delivers.
+ *   - If several departments are involved, the leads "meet" and Agentic Starter merges.
+ *   - Agentic Starter does the final review, corrects, and delivers.
  *
  * Each agent can post under its OWN Slack app (a real separate member) once you
  * register that app's bot token — see registerAgentToken / SLACK-SETUP.md. Until
@@ -14,12 +14,12 @@
  * (chat:write.customize) or a bold name-prefix fallback. So you can onboard the
  * 27 agents' apps incrementally and it works the whole way.
  *
- * Transport: Socket Mode (no public URL). Only the JARVIS app needs the app-level
+ * Transport: Socket Mode (no public URL). Only the Agentic Starter app needs the app-level
  * token + Socket Mode + Interactivity (it hears you and owns the Approve/Deny
  * buttons). Worker/lead apps only need a bot token with chat:write to post.
  *
  * Keychain:
- *   - slack_bot_token        (xoxb-…)  JARVIS coordinator bot token
+ *   - slack_bot_token        (xoxb-…)  Agentic Starter coordinator bot token
  *   - slack_app_token        (xapp-…)  app-level token, connections:write (Socket Mode)
  *   - slack_agent:<agentId>  (xoxb-…)  each agent's OWN app bot token (optional, per agent)
  */
@@ -60,7 +60,7 @@ async function buildAgentClients(): Promise<Map<string, WebClient>> {
   for (const k of keys) {
     if (!k.account.startsWith(AGENT_TOKEN_PREFIX)) continue;
     const agentId = k.account.slice(AGENT_TOKEN_PREFIX.length);
-    if (!agentId || agentId === "jarvis") continue; // jarvis = the coordinator app itself
+    if (!agentId || agentId === "coordinator") continue; // coordinator = the coordinator app itself
     const token = await getKey(k.account);
     if (token) clients.set(agentId, new WebClient(token));
   }
@@ -125,7 +125,7 @@ export async function startSlack(orchestrator: Orchestrator): Promise<boolean> {
   const askApproval = async (
     channel: string, threadTs: string, action: string, context: string, agentId?: string,
   ): Promise<boolean> => {
-    const who = agentId || "jarvis";
+    const who = agentId || "coordinator";
     const mgr = getApprovalManager();
     const { requestId, promise } = mgr.request(who, action, context);
     const ts = await hub.requestApproval(who, channel, threadTs, action, context, requestId);
@@ -153,7 +153,7 @@ export async function startSlack(orchestrator: Orchestrator): Promise<boolean> {
 
     const scan = scanMessage(text);
     if (scan.risk === "blocked") {
-      await hub.say("jarvis", channel, `⚠️ ${scan.reason}`, { threadTs: rootTs });
+      await hub.say("coordinator", channel, `⚠️ ${scan.reason}`, { threadTs: rootTs });
       return;
     }
 
@@ -167,20 +167,20 @@ export async function startSlack(orchestrator: Orchestrator): Promise<boolean> {
           onAgentMessage: (m) => renderBeat(channel, thread, m),
           onApprovalNeeded: (action, context, agentId) => askApproval(channel, thread, action, context, agentId),
         });
-        const responder = result.agentId && result.agentId !== "none" ? result.agentId : "jarvis";
+        const responder = result.agentId && result.agentId !== "none" ? result.agentId : "coordinator";
         await hub.say(responder, channel, result.output || "…", { threadTs: rootTs });
       } else {
-        // Workforce path — JARVIS runs the company; the deliverable comes back from JARVIS.
+        // Workforce path — Agentic Starter runs the company; the deliverable comes back from Agentic Starter.
         const result = await orchestrator.runWorkforce({
           userMessage: text,
           conversationId: "slack:" + channel,
           onAgentMessage: (m) => renderBeat(channel, thread, m),
           onApprovalNeeded: (action, context, agentId) => askApproval(channel, thread, action, context, agentId),
         });
-        await hub.say("jarvis", channel, `*Final deliverable*\n${result.output || "…"}`, { threadTs: rootTs });
+        await hub.say("coordinator", channel, `*Final deliverable*\n${result.output || "…"}`, { threadTs: rootTs });
       }
     } catch (err) {
-      await hub.say("jarvis", channel, "Hit an error handling that: " + String(err), { threadTs: rootTs });
+      await hub.say("coordinator", channel, "Hit an error handling that: " + String(err), { threadTs: rootTs });
     } finally {
       if (userMsgTs) await react(channel, userMsgTs, false);
     }
@@ -215,6 +215,6 @@ export async function startSlack(orchestrator: Orchestrator): Promise<boolean> {
 
   await socket.start();
   started = true;
-  console.log(`[Slack] Connected — ${roster.length} agents, ${agentClients.size} with their own app. @mention JARVIS; the workforce runs in a thread.`);
+  console.log(`[Slack] Connected — ${roster.length} agents, ${agentClients.size} with their own app. @mention Agentic Starter; the workforce runs in a thread.`);
   return true;
 }

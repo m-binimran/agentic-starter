@@ -1,12 +1,12 @@
 /**
- * JARVIS Workflow Builder
+ * Agentic Starter Workflow Builder
  *
  * Visual drag-and-drop canvas for building automation workflows.
  * Built on @xyflow/react (React Flow v12).
  *
  * Node types:
  *   trigger  — what kicks the workflow off (schedule, message match, etc.)
- *   action   — what JARVIS does (run agent, call MCP tool, send message)
+ *   action   — what Agentic Starter does (run agent, call MCP tool, send message)
  *   output   — what to do with the result (save to file, display, notify)
  *
  * Workflow is stored as JSON in the daemon via POST /api/workflows.
@@ -93,7 +93,7 @@ const defaultNodes: Node[] = [
     id: '2',
     type: 'action',
     position: { x: 100, y: 150 },
-    data: { label: 'Run JARVIS', agentId: 'jarvis', prompt: 'Process the trigger input' },
+    data: { label: 'Run Agentic Starter', agentId: 'coordinator', prompt: 'Process the trigger input' },
   },
   {
     id: '3',
@@ -117,7 +117,7 @@ const TRIGGER_TEMPLATES = [
 ]
 
 const ACTION_TEMPLATES = [
-  { label: 'Run JARVIS',      agentId: 'jarvis',       prompt: '' },
+  { label: 'Run Agentic Starter',      agentId: 'coordinator',       prompt: '' },
   { label: 'Research topic',  agentId: 'research-agent', prompt: '' },
   { label: 'Write content',   agentId: 'content-enterprise', prompt: '' },
   { label: 'Manage tasks',    agentId: 'project-agent', prompt: '' },

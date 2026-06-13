@@ -1,13 +1,13 @@
 /**
  * Pre-Task Skill Acquisition — Decision 20
  *
- * Before executing any complex task, JARVIS checks whether it has the
+ * Before executing any complex task, Agentic Starter checks whether it has the
  * right skills and MCPs to do it properly. If gaps are found, it asks
  * the user before starting.
  *
  * The sequence:
- * 1. User gives JARVIS a complex task
- * 2. JARVIS analyses what it requires
+ * 1. User gives Agentic Starter a complex task
+ * 2. Agentic Starter analyses what it requires
  * 3. Checks current tools against the task
  * 4. Identifies gaps
  * 5. Reports gaps — user decides whether to proceed
@@ -87,6 +87,6 @@ export function preTaskCheck(userMessage: string, router: MCPRouter): PreTaskChe
     suggestions,
     recommendation: ready
       ? "All required tools are available. Ready to proceed."
-      : `${gaps.length} tool gap(s) detected. You can still proceed — JARVIS will work around what's missing.`,
+      : `${gaps.length} tool gap(s) detected. You can still proceed — Agentic Starter will work around what's missing.`,
   };
 }

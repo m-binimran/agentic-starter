@@ -21,7 +21,7 @@ export interface SandboxResult {
 }
 
 // Shell execution is opt-in. Default OFF; enable via env or setShellEnabled(true).
-let _shellEnabled = process.env.JARVIS_ENABLE_SHELL === "1" || process.env.JARVIS_ENABLE_SHELL === "true";
+let _shellEnabled = process.env.AGENTIC_ENABLE_SHELL === "1" || process.env.AGENTIC_ENABLE_SHELL === "true";
 export function isShellEnabled(): boolean { return _shellEnabled; }
 export function setShellEnabled(on: boolean): void { _shellEnabled = !!on; }
 

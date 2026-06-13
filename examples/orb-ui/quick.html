@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Talk to JARVIS</title>
+<title>Talk to Agentic Starter</title>
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
   html,body{height:100%}
@@ -48,14 +48,14 @@
 </head>
 <body>
   <header>
-    <span class="dot"></span><b>Jarvis</b>
+    <span class="dot"></span><b>Agentic Starter</b>
     <span class="sp"></span>
-    <button id="mic" title="Hands-free voice — click, then say 'Hey Jarvis'">🎙️</button>
+    <button id="mic" title="Hands-free voice — click, then say 'Hey Agentic Starter'">🎙️</button>
     <button id="voice" class="on" title="Spoken replies on/off">🔊</button>
   </header>
   <div id="vbar" class="vbar" hidden><span id="vstate">●</span> <span id="vtext"></span></div>
   <div id="log">
-    <div class="msg jv">Hello. I'm JARVIS. What can I do for you?</div>
+    <div class="msg jv">Hello. I'm Agentic Starter. What can I do for you?</div>
   </div>
   <form id="f">
     <input id="box" placeholder="Type a message…" autocomplete="off" autofocus />
@@ -65,8 +65,8 @@
 <script>
   const DAEMON = "http://127.0.0.1:9101";
   let history = [];
-  try { history = JSON.parse(localStorage.getItem("jarvis_quick") || "[]"); } catch (_) {}
-  function saveHist() { try { localStorage.setItem("jarvis_quick", JSON.stringify(history.slice(-60))); } catch (_) {} }
+  try { history = JSON.parse(localStorage.getItem("agentic_quick") || "[]"); } catch (_) {}
+  function saveHist() { try { localStorage.setItem("agentic_quick", JSON.stringify(history.slice(-60))); } catch (_) {} }
   let currentAudio = null;
   const log = document.getElementById("log");
   const box = document.getElementById("box");
@@ -78,12 +78,12 @@
   // ── Routing — "talk to Hormozi" reroutes the conversation to that advisor ──
   let advisors = [];
   fetch(`${DAEMON}/api/advisors`).then(r => r.json()).then(d => { advisors = d.advisors || []; }).catch(() => {});
-  let activeTarget = { kind: "jarvis", id: null, name: "JARVIS" };
+  let activeTarget = { kind: "coordinator", id: null, name: "Agentic Starter" };
   const headBadge = document.querySelector("header b");
   function setTarget(t) { activeTarget = t; if (headBadge) headBadge.textContent = t.name; }
   function detectRoute(text) {
     const t = text.toLowerCase().trim().replace(/[.?!]+$/, "");
-    if (/\b(?:talk to|back to|switch to|speak to|return to)\s+jarvis\b/.test(t) || t === "jarvis") return { kind: "jarvis", id: null, name: "JARVIS" };
+    if (/\b(?:talk to|back to|switch to|speak to|return to)\s+coordinator\b/.test(t) || t === "coordinator") return { kind: "coordinator", id: null, name: "Agentic Starter" };
     const m = t.match(/\b(?:talk to|speak to|switch to|connect me to|let me talk to|i want to talk to|put me through to)\s+(.+)$/);
     if (m) {
       const q = m[1].trim();
@@ -122,7 +122,7 @@
     if (!voiceOn || !text) return;
     speechSynthesis.cancel();
     if (currentAudio) { try { currentAudio.pause(); } catch (_) {} currentAudio = null; }
-    // Mute the mic while JARVIS talks, so it never hears (and replies to) its own voice.
+    // Mute the mic while Agentic Starter talks, so it never hears (and replies to) its own voice.
     if (window.__voiceMute) window.__voiceMute(true);
     const safety = setTimeout(endSpeak, 30000);
     // Free Edge neural voice (British male) via the daemon — far better than the built-in voice.
@@ -148,19 +148,19 @@
   }
 
   async function ask(text) {
-    // Routing command? ("talk to Hormozi" / "talk to JARVIS") — reroute, don't send as a message.
+    // Routing command? ("talk to Hormozi" / "talk to Agentic Starter") — reroute, don't send as a message.
     const route = detectRoute(text);
     if (route) {
       box.value = "";
       if (route.kind === activeTarget.kind && route.id === activeTarget.id) addSystem(`Already talking to ${route.name}.`);
-      else { setTarget(route); addSystem(`→ Now talking to ${route.name}.` + (route.kind === "advisor" ? `  Say "talk to JARVIS" to come back.` : "")); }
+      else { setTarget(route); addSystem(`→ Now talking to ${route.name}.` + (route.kind === "advisor" ? `  Say "talk to Agentic Starter" to come back.` : "")); }
       return;
     }
     add(text, "me");
     history.push({ who: "me", text }); saveHist();
     box.value = ""; sendBtn.disabled = true;
     const bubble = add("", "jv thinking");
-    bubble.innerHTML = '<span class="dots"><i></i><i></i><i></i></span><span class="tlabel">JARVIS is thinking…</span>';
+    bubble.innerHTML = '<span class="dots"><i></i><i></i><i></i></span><span class="tlabel">Agentic Starter is thinking…</span>';
 
     let target = "", shown = 0, finished = false, started = false;
     // Typewriter — reveal the reply a few characters at a time so it "types" out.
@@ -180,7 +180,7 @@
 
     try {
       const url = activeTarget.kind === "advisor" ? `${DAEMON}/api/advisors/${activeTarget.id}/ask` : `${DAEMON}/api/chat`;
-      const payload = activeTarget.kind === "advisor" ? { question: text } : { message: text, agentId: "jarvis" };
+      const payload = activeTarget.kind === "advisor" ? { question: text } : { message: text, agentId: "coordinator" };
       const res = await fetch(url, {
         method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -203,7 +203,7 @@
         }
       }
     } catch (e) {
-      target = "⚠ Can't reach JARVIS. Make sure it's running. (" + e.message + ")";
+      target = "⚠ Can't reach Agentic Starter. Make sure it's running. (" + e.message + ")";
     } finally {
       finished = true;
     }
@@ -215,12 +215,12 @@
     if (t) ask(t);
   });
   if (typeof speechSynthesis !== "undefined") speechSynthesis.onvoiceschanged = () => {};
-  window.jarvisAsk = ask;   // let the voice module hand spoken commands to the talk box
+  window.agenticAsk = ask;   // let the voice module hand spoken commands to the talk box
 </script>
 <script type="module">
-  // "Hey Jarvis" hands-free voice (offline STT). See voice.js.
+  // "Hey Agentic Starter" hands-free voice (offline STT). See voice.js.
   import { start, stop, onVoice, setMuted, voice } from "./voice.js";
-  window.__voiceMute = setMuted;                       // talk box mutes mic while JARVIS speaks
+  window.__voiceMute = setMuted;                       // talk box mutes mic while Agentic Starter speaks
   const micBtn = document.getElementById("mic");
   const vbar   = document.getElementById("vbar");
   const vstate = document.getElementById("vstate");
@@ -230,7 +230,7 @@
   onVoice({
     status:  (state, text) => { show(state, text); micBtn.classList.toggle("on", voice.listening); micBtn.textContent = voice.awake ? "🎤" : "🎙️"; },
     partial: (p) => { if (p) { vbar.hidden = false; vtext.textContent = "“" + p + "”"; } },
-    command: (c) => { vtext.textContent = "“" + c + "”"; if (window.jarvisAsk) window.jarvisAsk(c); },
+    command: (c) => { vtext.textContent = "“" + c + "”"; if (window.agenticAsk) window.agenticAsk(c); },
   });
   micBtn.onclick = async () => {
     if (voice.listening) stop();

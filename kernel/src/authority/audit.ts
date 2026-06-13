@@ -1,7 +1,7 @@
 /**
- * JARVIS Audit Trail
+ * Agentic Starter Audit Trail
  *
- * Tamper-evident log of every action JARVIS takes.
+ * Tamper-evident log of every action Agentic Starter takes.
  * Each record includes a chain hash (SHA-256 of previous record + current data)
  * so any deletion or modification is detectable.
  *

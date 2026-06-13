@@ -7,7 +7,7 @@ shows you how to verify it yourself — don't take our word for it.
 ## The three guarantees
 
 1. **Local-first.** All state lives in a single SQLite file on your machine
-   (`~/.jarvis/vault.db`): conversations, the audit chain, memory, keys metadata.
+   (`~/.agentic-starter/vault.db`): conversations, the audit chain, memory, keys metadata.
    Nothing is uploaded by default. Memory embeddings are computed by a **local**
    Ollama model; if Ollama isn't running, memory degrades to on-device keyword
    recall — it never ships your notes anywhere to "work."

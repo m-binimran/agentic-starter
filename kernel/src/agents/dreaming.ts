@@ -1,5 +1,5 @@
 /**
- * JARVIS Agent Dreaming — Decision 10abaa
+ * Agentic Starter Agent Dreaming — Decision 10abaa
  *
  * After 2-3 consecutive failures or corrections on the same task type,
  * the agent enters a dreaming session — a deep offline reflection that
@@ -64,7 +64,7 @@ export async function runDreamingSession(
 ): Promise<DreamResult> {
   const { agentId, taskType, errors, userMessage } = trigger;
 
-  const dreamPrompt = `You are the ${agentId} agent in JARVIS, conducting a self-reflection session.
+  const dreamPrompt = `You are the ${agentId} agent in Agentic Starter, conducting a self-reflection session.
 
 You have failed at this type of task ${trigger.failures} times in a row:
 Task type: "${taskType}"

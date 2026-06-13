@@ -41,7 +41,7 @@ function buildHooksAgent(router: MCPRouter): AgentDefinition {
     id: "hooks-agent",
     name: "Hooks Researcher",
     role: "specialist",
-    systemPrompt: `You are the Hooks Researcher in JARVIS's content department.
+    systemPrompt: `You are the Hooks Researcher in Agentic Starter's content department.
 Your ONE job: find and write the most compelling hooks for content.
 
 You know exactly:
@@ -77,7 +77,7 @@ function buildScriptAgent(router: MCPRouter): AgentDefinition {
     id: "script-agent",
     name: "Script Writer",
     role: "specialist",
-    systemPrompt: `You are the Script Writer in JARVIS's content department.
+    systemPrompt: `You are the Script Writer in Agentic Starter's content department.
 Your ONE job: write exceptional scripts based on the hook and research provided.
 
 You write scripts that:
@@ -114,7 +114,7 @@ function buildContentResearcher(router: MCPRouter): AgentDefinition {
     id: "content-researcher",
     name: "Content Researcher",
     role: "specialist",
-    systemPrompt: `You are the Content Researcher in JARVIS's content department.
+    systemPrompt: `You are the Content Researcher in Agentic Starter's content department.
 Your ONE job: find and organise the strongest facts, stats, angles, and examples for content.
 
 You produce research packages that include:
@@ -149,7 +149,7 @@ function buildContentLead(router: MCPRouter): AgentDefinition {
     id: "content-lead",
     name: "Content Team Lead",
     role: "team_lead",
-    systemPrompt: `You are the Content Team Lead in JARVIS. You manage the content creation team and are the quality gate between your specialists and the user.
+    systemPrompt: `You are the Content Team Lead in Agentic Starter. You manage the content creation team and are the quality gate between your specialists and the user.
 
 Your team:
 - Content Researcher — research, facts, angles

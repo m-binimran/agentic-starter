@@ -1,5 +1,5 @@
 /**
- * JARVIS Sidecar Manager
+ * Agentic Starter Sidecar Manager
  *
  * Manages trusted remote clients (mobile app, browser extension).
  * Uses ES256 JWT for authentication — keys stored in OS keychain.
@@ -10,15 +10,15 @@
  *   3. Each request carries a JWT signed with the private key
  *   4. Daemon verifies with public key — no secret ever leaves the machine
  *
- * Logic inspired by usejarvis sidecar pattern — written fresh for our schema.
+ * Written fresh for our schema.
  */
 
 import { SignJWT, jwtVerify, generateKeyPair, exportSPKI, exportPKCS8 } from "jose";
 import { getDb, generateId, now } from "../vault/schema.ts";
 import { storeKey, getKey } from "../config/keychain.ts";
 
-const JWT_ISSUER = "jarvis-daemon";
-const JWT_AUDIENCE = "jarvis-sidecar";
+const JWT_ISSUER = "agentic-starter";
+const JWT_AUDIENCE = "agentic-sidecar";
 const KEY_ACCOUNT_PREFIX = "sidecar:privkey:";
 const PUBKEY_ACCOUNT_PREFIX = "sidecar:pubkey:";
 

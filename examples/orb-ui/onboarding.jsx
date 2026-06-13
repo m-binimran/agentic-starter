@@ -1,20 +1,20 @@
-// onboarding.jsx — Conversational JARVIS setup
+// onboarding.jsx — Conversational Agentic Starter setup
 //
-// JARVIS guides the user through setup in a natural conversation.
-// No forms, no checklists — just talking to JARVIS.
+// Agentic Starter guides the user through setup in a natural conversation.
+// No forms, no checklists — just talking to Agentic Starter.
 //
 // Flow (all handled in conversation):
-//   1. JARVIS introduces itself
+//   1. Agentic Starter introduces itself
 //   2. Asks which AI provider (user types or clicks chip)
 //   3. Asks for API key → saves to daemon keychain
-//   4. Voice test — say "Jarvis" (skippable)
+//   4. Voice test — say "Agentic Starter" (skippable)
 //   5. Asks for Master Vision → saves to daemon
 //   6. Asks for permission mode → saves to daemon
 //   7. Done — enters main app
 //
 // Note: Steps 1-3 are scripted (no API key yet, can't call AI).
 // Steps 4-7 can optionally use real AI once the key is saved.
-// For reliability, the whole flow is scripted — feels like JARVIS, works every time.
+// For reliability, the whole flow is scripted — feels like Agentic Starter, works every time.
 
 // ── Conversation state machine ───────────────────────────────────────────────
 // stage values: intro | provider | apikey | key_saving | voice | vision | vision_saving | permission | done
@@ -61,11 +61,11 @@ function Onboarding({ onComplete }) {
   // kick off the conversation on mount
   React.useEffect(() => {
     setTimeout(() => {
-      addJarvis("Hello. I'm JARVIS — your personal AI operating system.");
+      addAgent("Hello. I'm Agentic Starter — your personal AI operating system.");
     }, 300);
     setTimeout(() => {
       setStage("provider");
-      addJarvis("Before we start, I need to connect to an AI brain.\n\nNo budget? Pick **Ollama** — it's free and runs on your own computer. Or choose Anthropic / OpenAI / Google if you already have a key.", "provider_chips");
+      addAgent("Before we start, I need to connect to an AI brain.\n\nNo budget? Pick **Ollama** — it's free and runs on your own computer. Or choose Anthropic / OpenAI / Google if you already have a key.", "provider_chips");
     }, 1100);
   }, []);
 
@@ -74,8 +74,8 @@ function Onboarding({ onComplete }) {
 
   // ── Message helpers ──────────────────────────────────────────────────────────
   let msgId = Date.now();
-  const addJarvis = (text, widget = null) => {
-    setMessages(prev => [...prev, { id: msgId++, role: "jarvis", text, widget }]);
+  const addAgent = (text, widget = null) => {
+    setMessages(prev => [...prev, { id: msgId++, role: "coordinator", text, widget }]);
   };
   const addUser = (text) => {
     setMessages(prev => [...prev, { id: msgId++, role: "user", text }]);
@@ -88,7 +88,7 @@ function Onboarding({ onComplete }) {
     if (p.keyless) { handleOllamaPick(); return; } // Ollama needs no key
     setStage("apikey");
     setTimeout(() => {
-      addJarvis(
+      addAgent(
         `${p.name} — good choice.\n\nPaste your API key below. It goes straight into your OS keychain — never stored anywhere else.\n\nGet yours at ${p.url}`,
         "key_input"
       );
@@ -108,15 +108,15 @@ function Onboarding({ onComplete }) {
       const data = await res.json();
       if (!data.success) throw new Error(data.error || "Could not connect");
       setBusy(false);
-      setTimeout(() => addJarvis("Ollama connected — free local AI, no key, no cost. ✓\n\nJust keep the Ollama app running on your computer."), 300);
+      setTimeout(() => addAgent("Ollama connected — free local AI, no key, no cost. ✓\n\nJust keep the Ollama app running on your computer."), 300);
       setTimeout(() => {
         setStage("voice");
-        addJarvis("Now let's make sure voice works.\n\nSay **\"Jarvis\"** out loud. I'll respond — or type skip to set it up later.", "voice_test");
+        addAgent("Now let's make sure voice works.\n\nSay **\"Agentic Starter\"** out loud. I'll respond — or type skip to set it up later.", "voice_test");
       }, 1200);
     } catch (e) {
       setBusy(false);
       setStage("provider");
-      setTimeout(() => addJarvis(`Couldn't reach the JARVIS engine: ${e.message}\n\nMake sure the engine window is running, then try again.`), 200);
+      setTimeout(() => addAgent(`Couldn't reach the Agentic Starter engine: ${e.message}\n\nMake sure the engine window is running, then try again.`), 200);
     }
   };
 
@@ -136,26 +136,26 @@ function Onboarding({ onComplete }) {
 
       setBusy(false);
       setTimeout(() => {
-        addJarvis("Key saved. ✓");
+        addAgent("Key saved. ✓");
       }, 300);
       setTimeout(() => {
         setStage("voice");
-        addJarvis(
-          "Now let's make sure voice works.\n\nSay **\"Jarvis\"** out loud. I'll respond. Or type skip if you'd rather set up voice later.",
+        addAgent(
+          "Now let's make sure voice works.\n\nSay **\"Agentic Starter\"** out loud. I'll respond. Or type skip if you'd rather set up voice later.",
           "voice_test"
         );
       }, 900);
     } catch (e) {
       setBusy(false);
       setStage("apikey");
-      setTimeout(() => addJarvis(`Couldn't save that key: ${e.message}\n\nDouble-check it and try again.`), 200);
+      setTimeout(() => addAgent(`Couldn't save that key: ${e.message}\n\nDouble-check it and try again.`), 200);
     }
   };
 
   const startVoiceTest = () => {
     const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SR) {
-      addJarvis("No microphone access in this browser. Type **skip** to continue.");
+      addAgent("No microphone access in this browser. Type **skip** to continue.");
       return;
     }
     const r = new SR();
@@ -163,7 +163,7 @@ function Onboarding({ onComplete }) {
     recogRef.current = r;
     r.onresult = (e) => {
       const text = Array.from(e.results).map(x => x[0].transcript).join(" ").toLowerCase();
-      if (text.includes("jarvis")) {
+      if (text.includes("coordinator")) {
         try { r.stop(); } catch {}
         setVoiceHeard(true);
         setListening(false);
@@ -171,7 +171,7 @@ function Onboarding({ onComplete }) {
         u.rate = 0.95; u.pitch = 0.85;
         window.speechSynthesis.speak(u);
         setTimeout(() => {
-          addJarvis("I heard you. Voice is working. ✓");
+          addAgent("I heard you. Voice is working. ✓");
           proceedToVision();
         }, 800);
       }
@@ -179,20 +179,20 @@ function Onboarding({ onComplete }) {
     r.onerror = () => setListening(false);
     r.onend   = () => setListening(false);
     try { r.start(); setListening(true); } catch {
-      addJarvis("Couldn't start the mic. Type **skip** to continue.");
+      addAgent("Couldn't start the mic. Type **skip** to continue.");
     }
   };
 
   const skipVoice = () => {
     addUser("skip");
-    addJarvis("No problem — you can enable voice anytime from the orb.");
+    addAgent("No problem — you can enable voice anytime from the orb.");
     setTimeout(proceedToVision, 600);
   };
 
   const proceedToVision = () => {
     setStage("vision");
     setTimeout(() => {
-      addJarvis(
+      addAgent(
         "One more thing — what are you trying to build or achieve?\n\nThis becomes my north star. Every agent reads it before every task. Be specific: who you are, what you're building, what success looks like in the next 90 days."
       );
     }, 400);
@@ -201,7 +201,7 @@ function Onboarding({ onComplete }) {
   const handleVisionSave = async (vision) => {
     if (!vision.trim() || vision.trim().toLowerCase() === "skip") {
       addUser(vision.trim().toLowerCase() === "skip" ? "skip" : vision);
-      addJarvis("Understood — you can set your vision anytime from settings.");
+      addAgent("Understood — you can set your vision anytime from settings.");
       setTimeout(proceedToPermission, 600);
       return;
     }
@@ -214,14 +214,14 @@ function Onboarding({ onComplete }) {
         body: JSON.stringify({ content: vision.trim() }),
       });
     } catch {} finally { setBusy(false); }
-    setTimeout(() => addJarvis("Got it. That's locked in as my north star. ✓"), 300);
+    setTimeout(() => addAgent("Got it. That's locked in as my north star. ✓"), 300);
     setTimeout(proceedToPermission, 900);
   };
 
   const proceedToPermission = () => {
     setStage("permission");
     setTimeout(() => {
-      addJarvis(
+      addAgent(
         "Last thing — how much autonomy do you want me to have?\n\nPick a mode or type its name:",
         "permission_chips"
       );
@@ -231,7 +231,7 @@ function Onboarding({ onComplete }) {
   const handlePermission = async (mode) => {
     const m = PERMISSION_MODES.find(x => x.id === mode || x.label.toLowerCase() === mode.toLowerCase());
     if (!m) {
-      addJarvis("I didn't catch that. Type safe, productive, auto, or bypass.");
+      addAgent("I didn't catch that. Type safe, productive, auto, or bypass.");
       return;
     }
     addUser(m.label);
@@ -242,9 +242,9 @@ function Onboarding({ onComplete }) {
       });
     } catch {}
     setStage("done");
-    setTimeout(() => addJarvis(`${m.label} mode set. ✓`), 300);
+    setTimeout(() => addAgent(`${m.label} mode set. ✓`), 300);
     setTimeout(() => {
-      addJarvis("All set. Welcome aboard.\n\nHold space to talk, or press the mic button. I'm always here.");
+      addAgent("All set. Welcome aboard.\n\nHold space to talk, or press the mic button. I'm always here.");
     }, 900);
     setTimeout(() => onComplete(), 3200);
   };
@@ -260,7 +260,7 @@ function Onboarding({ onComplete }) {
       const p = PROVIDERS.find(x => x.name.toLowerCase().includes(val.toLowerCase()) || x.id.includes(val.toLowerCase()));
       if (p) { handleProviderPick(p); return; }
       addUser(val);
-      addJarvis("I didn't catch that. Pick **Ollama** for free (no key needed), or type **Anthropic**, **OpenAI**, or **Google** — or click a chip below.", "provider_chips");
+      addAgent("I didn't catch that. Pick **Ollama** for free (no key needed), or type **Anthropic**, **OpenAI**, or **Google** — or click a chip below.", "provider_chips");
       return;
     }
 
@@ -272,7 +272,7 @@ function Onboarding({ onComplete }) {
     if (stage === "voice") {
       if (val.toLowerCase() === "skip") { skipVoice(); return; }
       addUser(val);
-      addJarvis("Say the word out loud, or type **skip** to move on.");
+      addAgent("Say the word out loud, or type **skip** to move on.");
       return;
     }
 
@@ -301,7 +301,7 @@ function Onboarding({ onComplete }) {
     vision:         "Describe what you're building and what success looks like…",
     vision_saving:  "Saving…",
     permission:     "Type safe, productive, auto, or bypass…",
-    done:           "Opening JARVIS…",
+    done:           "Opening Agentic Starter…",
   }[stage] || "…";
 
   // ── Render ────────────────────────────────────────────────────────────────
@@ -327,7 +327,7 @@ function Onboarding({ onComplete }) {
           fontSize: 14, fontWeight: 700, color: "var(--primary)",
         }}>J</div>
         <div>
-          <div style={{ fontSize: 13, fontWeight: 600, color: "var(--text)" }}>JARVIS</div>
+          <div style={{ fontSize: 13, fontWeight: 600, color: "var(--text)" }}>Agentic Starter</div>
           <div className="mono" style={{ fontSize: 9, color: "var(--subtext)", letterSpacing: ".14em" }}>INITIAL SETUP</div>
         </div>
       </div>
@@ -345,7 +345,7 @@ function Onboarding({ onComplete }) {
             gap: 10, alignItems: "flex-start",
           }}>
             {/* Avatar */}
-            {msg.role === "jarvis" && (
+            {msg.role === "coordinator" && (
               <div style={{
                 width: 28, height: 28, borderRadius: "50%", flexShrink: 0,
                 background: "var(--primary-soft)", border: "1px solid var(--primary)",

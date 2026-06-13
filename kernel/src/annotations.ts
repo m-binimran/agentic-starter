@@ -1,9 +1,9 @@
 /**
- * Screen annotations — what JARVIS draws on your screen.
+ * Screen annotations — what Agentic Starter draws on your screen.
  *
  * The desktop overlay runs a transparent, click-through, full-screen window
  * (annotate.html) that polls GET /api/annotate and renders these shapes — so
- * JARVIS can highlight a spot, point an arrow, or flag "look here". Shapes
+ * Agentic Starter can highlight a spot, point an arrow, or flag "look here". Shapes
  * auto-expire so the screen clears itself.
  *
  * Coordinates are 0..1 fractions of the screen (so they work on any resolution):

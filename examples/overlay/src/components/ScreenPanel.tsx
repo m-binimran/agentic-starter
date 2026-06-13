@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { jarvis } from '../lib/ipc'
+import { coordinator } from '../lib/ipc'
 
 export function ScreenPanel() {
   const [dataUrl, setDataUrl] = useState<string | null>(null)
@@ -12,7 +12,7 @@ export function ScreenPanel() {
     setLoading(true)
     setError('')
     setAnalysis('')
-    const res = await jarvis.captureScreen()
+    const res = await coordinator.captureScreen()
     if (res.success && res.dataUrl) {
       setDataUrl(res.dataUrl)
     } else {
@@ -30,7 +30,7 @@ export function ScreenPanel() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          agentId: 'jarvis',
+          agentId: 'coordinator',
           message: 'Analyze this screenshot and tell me what you see.',
           screenshot: dataUrl,
         }),
@@ -51,7 +51,7 @@ export function ScreenPanel() {
         </button>
         {dataUrl && (
           <button className="action-btn secondary" onClick={analyze} disabled={analyzing}>
-            {analyzing ? 'Analyzing…' : '🔍  Analyze with JARVIS'}
+            {analyzing ? 'Analyzing…' : '🔍  Analyze with Agentic Starter'}
           </button>
         )}
       </div>

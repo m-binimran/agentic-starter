@@ -1,12 +1,12 @@
 /**
- * JARVIS Onboarding — First Run Setup
+ * Agentic Starter Onboarding — First Run Setup
  *
  * Phase 1 — Mandatory (5 min):
  *   1. Welcome — animated "J" logo + brief pitch
  *   2. Provider — pick Anthropic / OpenAI / Google
  *   3. API Key — input + store in daemon keychain
- *   4. Voice Test — say "Hello Jarvis", hear JARVIS respond (skippable)
- *   5. First Task — ask JARVIS anything, see it work live
+ *   4. Voice Test — say "Hello Agentic Starter", hear Agentic Starter respond (skippable)
+ *   5. First Task — ask Agentic Starter anything, see it work live
  *   6. Done — transition to PIN setup
  *
  * Zero telemetry. Key goes straight to OS keychain via daemon.
@@ -162,7 +162,7 @@ export function Onboarding({ onComplete }: Props) {
         }
       }
     } catch {
-      setFirstTaskResponse('JARVIS daemon not reachable — but your key is saved. You can proceed.')
+      setFirstTaskResponse('Agentic Starter daemon not reachable — but your key is saved. You can proceed.')
     } finally {
       setFirstTaskLoading(false)
     }
@@ -194,7 +194,7 @@ export function Onboarding({ onComplete }: Props) {
         setError(data.error ?? 'Failed to save key')
       }
     } catch {
-      setError('Cannot reach JARVIS daemon. Make sure it\'s running.')
+      setError('Cannot reach Agentic Starter daemon. Make sure it\'s running.')
     } finally {
       setSaving(false)
     }
@@ -209,7 +209,7 @@ export function Onboarding({ onComplete }: Props) {
       {step === 'welcome' && (
         <div className="onboard-step">
           <div className="onboard-logo">J</div>
-          <h2 className="onboard-title">Welcome to JARVIS</h2>
+          <h2 className="onboard-title">Welcome to Agentic Starter</h2>
           <p className="onboard-subtitle">
             Your personal AI operating system.<br />
             Runs entirely on your machine. Zero cloud. Zero telemetry.
@@ -221,7 +221,7 @@ export function Onboarding({ onComplete }: Props) {
             </div>
             <div className="onboard-feature">
               <span>🎙</span>
-              <span>Wake word: say "Jarvis" anytime</span>
+              <span>Wake word: say "Agentic Starter" anytime</span>
             </div>
             <div className="onboard-feature">
               <span>🔒</span>
@@ -325,8 +325,8 @@ export function Onboarding({ onComplete }: Props) {
           <div className="onboard-step-label">Step 3 of 4</div>
           <h2 className="onboard-title">Wake word test</h2>
           <p className="onboard-subtitle">
-            Say <strong>"Jarvis"</strong> and JARVIS will respond.<br />
-            This is how you'll summon JARVIS from anywhere.
+            Say <strong>"Agentic Starter"</strong> and Agentic Starter will respond.<br />
+            This is how you'll summon Agentic Starter from anywhere.
           </p>
 
           <div className="voice-test-area">
@@ -338,13 +338,13 @@ export function Onboarding({ onComplete }: Props) {
             {voiceListening && (
               <div className="voice-test-listening">
                 <div className="voice-test-pulse" />
-                <span>Listening… say <strong>"Jarvis"</strong></span>
+                <span>Listening… say <strong>"Agentic Starter"</strong></span>
               </div>
             )}
             {voiceHeard && (
               <div className="voice-test-success">
                 <span className="voice-test-check">✓</span>
-                <span>Wake word detected! JARVIS responded.</span>
+                <span>Wake word detected! Agentic Starter responded.</span>
               </div>
             )}
             {voiceError && (
@@ -372,9 +372,9 @@ export function Onboarding({ onComplete }: Props) {
       {step === 'firsttask' && (
         <div className="onboard-step">
           <div className="onboard-step-label">Step 4 of 4</div>
-          <h2 className="onboard-title">Ask JARVIS anything</h2>
+          <h2 className="onboard-title">Ask Agentic Starter anything</h2>
           <p className="onboard-subtitle">
-            Try it live. Type a question and see JARVIS respond.
+            Try it live. Type a question and see Agentic Starter respond.
           </p>
 
           <div className="first-task-area">
@@ -404,7 +404,7 @@ export function Onboarding({ onComplete }: Props) {
               <div className="first-task-response">
                 <div className="first-task-q">You: {firstTaskInput}</div>
                 <div className="first-task-a">
-                  <span className="first-task-label">JARVIS:</span> {firstTaskResponse}
+                  <span className="first-task-label">Agentic Starter:</span> {firstTaskResponse}
                 </div>
               </div>
             )}
@@ -430,10 +430,10 @@ export function Onboarding({ onComplete }: Props) {
       {step === 'done' && (
         <div className="onboard-step onboard-done">
           <div className="onboard-done-icon">✓</div>
-          <h2 className="onboard-title">JARVIS is ready</h2>
+          <h2 className="onboard-title">Agentic Starter is ready</h2>
           <p className="onboard-subtitle">
             {selectedProvider?.name} key stored securely.<br />
-            Now set up your 4-digit PIN to protect your JARVIS.
+            Now set up your 4-digit PIN to protect your Agentic Starter.
           </p>
           <button className="onboard-btn primary" onClick={onComplete}>
             Set Up PIN →

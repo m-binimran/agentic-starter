@@ -1,8 +1,8 @@
 /**
- * JARVIS Phase 2 Setup Checklist
+ * Agentic Starter Phase 2 Setup Checklist
  *
  * Shopify-style optional setup panel. Shows after first login.
- * User can complete items at their own pace — JARVIS works fully without it.
+ * User can complete items at their own pace — Agentic Starter works fully without it.
  * Each item unlocks a specific capability when completed.
  *
  * Decision 17: Phase 2 is optional depth, not a gate.
@@ -26,7 +26,7 @@ const DEFAULT_ITEMS: ChecklistItem[] = [
     id: 'vision',
     icon: '🎯',
     title: 'Set your Master Vision',
-    description: 'Tell JARVIS who you are and what you\'re building.',
+    description: 'Tell Agentic Starter who you are and what you\'re building.',
     unlocks: 'All agents understand your goals',
     done: false,
   },
@@ -34,7 +34,7 @@ const DEFAULT_ITEMS: ChecklistItem[] = [
     id: 'gmail',
     icon: '📧',
     title: 'Connect Gmail',
-    description: 'Let JARVIS read and draft emails on your behalf.',
+    description: 'Let Agentic Starter read and draft emails on your behalf.',
     unlocks: 'Email agent goes live',
     done: false,
   },
@@ -42,7 +42,7 @@ const DEFAULT_ITEMS: ChecklistItem[] = [
     id: 'calendar',
     icon: '📅',
     title: 'Connect Calendar',
-    description: 'JARVIS sees your schedule and gives you daily briefings.',
+    description: 'Agentic Starter sees your schedule and gives you daily briefings.',
     unlocks: 'Scheduling + daily briefing',
     done: false,
   },
@@ -58,7 +58,7 @@ const DEFAULT_ITEMS: ChecklistItem[] = [
     id: 'permission',
     icon: '🔑',
     title: 'Set permission mode',
-    description: 'Choose how much autonomy JARVIS has (Safe / Productive / Auto / Bypass).',
+    description: 'Choose how much autonomy Agentic Starter has (Safe / Productive / Auto / Bypass).',
     unlocks: 'Move beyond Safe mode',
     done: false,
   },
@@ -125,7 +125,7 @@ export function SetupChecklist({ onDismiss }: Props) {
         setVisionError('Failed to save. Is the daemon running?')
       }
     } catch {
-      setVisionError('Cannot reach JARVIS daemon.')
+      setVisionError('Cannot reach Agentic Starter daemon.')
     } finally {
       setVisionSaving(false)
     }
@@ -140,7 +140,7 @@ export function SetupChecklist({ onDismiss }: Props) {
     <div className="setup-checklist">
       <div className="checklist-header">
         <div className="checklist-title-row">
-          <h3 className="checklist-title">Set up JARVIS</h3>
+          <h3 className="checklist-title">Set up Agentic Starter</h3>
           <button className="checklist-dismiss" onClick={onDismiss} title="Hide checklist">✕</button>
         </div>
         <div className="checklist-progress-row">
@@ -151,7 +151,7 @@ export function SetupChecklist({ onDismiss }: Props) {
         </div>
         {allDone && (
           <div className="checklist-all-done">
-            🎉 JARVIS is fully set up. You're ready.
+            🎉 Agentic Starter is fully set up. You're ready.
           </div>
         )}
       </div>

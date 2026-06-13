@@ -1,4 +1,4 @@
-// orb.jsx — JARVIS Orb HUD (the "back" face)
+// orb.jsx — Agentic Starter Orb HUD (the "back" face)
 //
 // Central listening orb that:
 //   - Listens to the mic if granted; otherwise simulates input
@@ -313,7 +313,7 @@ function Sparkline({ values, color = "var(--primary)" }) {
   );
 }
 
-// Real JARVIS stats from the daemon
+// Real Agentic Starter stats from the daemon
 function StatusPanel() {
   const [stats, setStats] = React.useState({
     agents: 0, total: 0,
@@ -358,7 +358,7 @@ function StatusPanel() {
   ];
 
   return (
-    <HudPanel title="JARVIS Status">
+    <HudPanel title="Agentic Starter Status">
       {rows.map(([k, v]) => (
         <div key={k} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "5px 0", borderBottom: "1px dashed var(--border)", gap: 6 }}>
           <span className="mono upper" style={{ fontSize: 9, color: "var(--muted)", letterSpacing: ".14em" }}>{k}</span>
@@ -692,7 +692,7 @@ function ActiveAgentPanel() {
 
   // Cycling task descriptions for active agents (since daemon tracks status not live task text)
   const TASK_HINTS = {
-    "jarvis":          "Routing requests · orchestrating",
+    "coordinator":          "Routing requests · orchestrating",
     "ceo":             "Strategic oversight",
     "research-agent":  "Scanning sources",
     "content-lead":    "Reviewing drafts",
@@ -728,7 +728,7 @@ function ActiveAgentPanel() {
       ) : (
         <div style={{ display: "flex", flexDirection: "column", gap: 6, overflowY: "auto", maxHeight: 160 }}>
           {agents.map((a) => {
-            const isOrch  = a.id === "jarvis" || a.id === "ceo";
+            const isOrch  = a.id === "coordinator" || a.id === "ceo";
             const isLead  = a.name.toLowerCase().includes("lead");
             const type    = isOrch ? "orchestrator" : isLead ? "lead" : "specialist";
             const task    = TASK_HINTS[a.id] || "Processing…";
@@ -774,12 +774,12 @@ function ActiveAgentPanel() {
 
 // ───────────────────────────────────────────────────────────────────────────
 // ElevenLabs TTS
-// Voice: "Adam" — deep, authoritative. Change JARVIS_VOICE_ID to swap voice.
-const JARVIS_VOICE_ID = "pNInz6obpgDQGcFmaJgB"; // Adam
+// Voice: "Adam" — deep, authoritative. Change AGENTIC_VOICE_ID to swap voice.
+const AGENTIC_VOICE_ID = "pNInz6obpgDQGcFmaJgB"; // Adam
 
 async function speakText(text, apiKey) {
   const res = await fetch(
-    `https://api.elevenlabs.io/v1/text-to-speech/${JARVIS_VOICE_ID}/stream`,
+    `https://api.elevenlabs.io/v1/text-to-speech/${AGENTIC_VOICE_ID}/stream`,
     {
       method: "POST",
       headers: {
@@ -837,7 +837,7 @@ function speakFree(text) {
 
 // Speak: ElevenLabs if a key is set (premium), else the free Edge voice.
 function speak(text) {
-  const key = localStorage.getItem("jarvis_elevenlabs_key");
+  const key = localStorage.getItem("agentic_elevenlabs_key");
   return key ? speakText(text, key).catch(() => speakFree(text)) : speakFree(text);
 }
 
@@ -851,7 +851,7 @@ function VoiceKeyBar({ apiKey, onSave }) {
 
   const save = () => {
     const k = input.trim();
-    localStorage.setItem("jarvis_elevenlabs_key", k);
+    localStorage.setItem("agentic_elevenlabs_key", k);
     onSave(k);
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
@@ -890,7 +890,7 @@ function VoiceKeyBar({ apiKey, onSave }) {
         fontWeight: 700, cursor: "pointer",
       }}>{saved ? "Saved ✓" : "Save"}</button>
       {apiKey && (
-        <button onClick={() => { localStorage.removeItem("jarvis_elevenlabs_key"); onSave(""); setInput(""); }}
+        <button onClick={() => { localStorage.removeItem("agentic_elevenlabs_key"); onSave(""); setInput(""); }}
           style={{ fontSize: 10, color: "var(--subtext)", background: "none", border: "none", cursor: "pointer" }}>
           Clear
         </button>
@@ -911,7 +911,7 @@ function OrbView({ mode, onFlip, onOpenChat }) {
   const [transcript, setTranscript] = React.useState("Hold space to talk, or press the mic.");
   const [orbSize, setOrbSize]       = React.useState(420);
   const [elevenKey, setElevenKey]   = React.useState(
-    () => localStorage.getItem("jarvis_elevenlabs_key") || ""
+    () => localStorage.getItem("agentic_elevenlabs_key") || ""
   );
   const [showVoiceBar, setShowVoiceBar] = React.useState(false);
   const [typed, setTyped] = React.useState("");
@@ -926,7 +926,7 @@ function OrbView({ mode, onFlip, onOpenChat }) {
   const pal = { primary: "#0ABAB5", accent: "#1a4fff", core: "#e6fffe" };
 
   // Play the "wake / thinking" spin-in on mount AND every time the orb window is
-  // re-shown/refocused — so opening the overview always reads as JARVIS coming
+  // re-shown/refocused — so opening the overview always reads as Agentic Starter coming
   // alive to think, not a static orb that was just sitting there.
   React.useEffect(() => {
     let timer;
@@ -960,7 +960,7 @@ function OrbView({ mode, onFlip, onOpenChat }) {
     return () => window.removeEventListener("resize", update);
   }, []);
 
-  // ── Screen guidance: JARVIS looks at the screen and shows where to click ───
+  // ── Screen guidance: Agentic Starter looks at the screen and shows where to click ───
   // Browser can't screenshot the OS, so we queue the task; the Electron overlay
   // grabs the screenshot, the daemon locates the target + draws, we narrate it.
   const runGuidance = React.useCallback(async (task) => {
@@ -988,7 +988,7 @@ function OrbView({ mode, onFlip, onOpenChat }) {
       }
 
       const resetIdle = () => { setState("idle"); setTranscript("Hold space to talk, or press the mic."); busyRef.current = false; };
-      if (!result) { setTranscript("The screen overlay didn't respond — is the JARVIS pill running?"); setTimeout(resetIdle, 4000); return; }
+      if (!result) { setTranscript("The screen overlay didn't respond — is the Agentic Starter pill running?"); setTimeout(resetIdle, 4000); return; }
       if (result.error) { setTranscript(`⚠ ${result.error}`); setTimeout(resetIdle, 5000); return; }
 
       const say = result.narration || (result.found ? "There it is — highlighted on your screen." : "I couldn't find that on your screen.");
@@ -1002,7 +1002,7 @@ function OrbView({ mode, onFlip, onOpenChat }) {
   }, []);
 
   // ── Send spoken text to the daemon and stream response back ────────────────
-  const sendToJarvis = React.useCallback(async (text) => {
+  const sendToAgent = React.useCallback(async (text) => {
     text = text.trim();
     if (!text || busyRef.current) return;
 
@@ -1018,7 +1018,7 @@ function OrbView({ mode, onFlip, onOpenChat }) {
       const res = await fetch(`${window.DAEMON_URL}/api/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: text, agentId: "jarvis" }),
+        body: JSON.stringify({ message: text, agentId: "coordinator" }),
       });
 
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -1051,7 +1051,7 @@ function OrbView({ mode, onFlip, onOpenChat }) {
               setTranscript(out);
 
               // Speak with ElevenLabs if key is set, otherwise fall back to browser TTS
-              const key = localStorage.getItem("jarvis_elevenlabs_key");
+              const key = localStorage.getItem("agentic_elevenlabs_key");
               if (key) {
                 setState("speaking");
                 speakText(out, key)
@@ -1117,11 +1117,11 @@ function OrbView({ mode, onFlip, onOpenChat }) {
   }, [runGuidance]);
 
   // ── Start listening: FREE offline Vosk speech-to-text (no API key) ─────────
-  // Uses the in-browser Vosk engine bridged at window.JarvisVoice (see voice.js).
+  // Uses the in-browser Vosk engine bridged at window.AgenticVoice (see voice.js).
   // Works inside Electron where webkitSpeechRecognition is dead, and costs nothing.
   const startListening = React.useCallback(async () => {
     if (busyRef.current || listeningRef.current) return;
-    const V = window.JarvisVoice;
+    const V = window.AgenticVoice;
     if (!V || !V.pttStart) { setTranscript("Voice engine still loading — try again in a moment, or type below."); return; }
     listeningRef.current = true;
     setState("listening");
@@ -1142,11 +1142,11 @@ function OrbView({ mode, onFlip, onOpenChat }) {
       setState("idle"); setTranscript("Hold space to talk, tap the mic, or type below."); return;
     }
     listeningRef.current = false;
-    const V = window.JarvisVoice;
+    const V = window.AgenticVoice;
     const text = (V && V.pttStop ? V.pttStop() : "").trim();
-    if (text) sendToJarvis(text);
+    if (text) sendToAgent(text);
     else { setState("idle"); setTranscript("Didn't catch that — try again, or type below."); }
-  }, [sendToJarvis]);
+  }, [sendToAgent]);
 
   // ── Space bar: hold = listen, release = send ──────────────────────────────
   React.useEffect(() => {
@@ -1231,7 +1231,7 @@ function OrbView({ mode, onFlip, onOpenChat }) {
         {/* ElevenLabs key now lives in the full app → ⚙ Settings (no clutter on the orb) */}
       </div>
 
-      {/* left HUD stack — real JARVIS stats + activity log */}
+      {/* left HUD stack — real Agentic Starter stats + activity log */}
       <div style={{
         position: "absolute", top: 62, left: 14, bottom: 80, width: 230,
         display: "flex", flexDirection: "column", gap: 10, zIndex: 3,
@@ -1302,8 +1302,8 @@ function OrbView({ mode, onFlip, onOpenChat }) {
           <input
             value={typed}
             onChange={e => setTyped(e.target.value)}
-            onKeyDown={e => { if (e.key === "Enter" && typed.trim()) { sendToJarvis(typed); setTyped(""); } }}
-            placeholder="Type to JARVIS, or hold Space / tap the mic…"
+            onKeyDown={e => { if (e.key === "Enter" && typed.trim()) { sendToAgent(typed); setTyped(""); } }}
+            placeholder="Type to Agentic Starter, or hold Space / tap the mic…"
             style={{
               width: 340, maxWidth: "46vw",
               background: "var(--surface-2)", color: "var(--text)",

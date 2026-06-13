@@ -1,12 +1,12 @@
-# JARVIS - one-time installer for Windows. Re-runnable (idempotent).
+# Agentic Starter - one-time installer for Windows. Re-runnable (idempotent).
 # Installs prerequisites (Node + Ollama via winget), all project dependencies,
-# a small local model, and a desktop shortcut. Then JARVIS is double-click ready.
+# a small local model, and a desktop shortcut. Then Agentic Starter is double-click ready.
 
 $ErrorActionPreference = "Stop"
 $overlay  = $PSScriptRoot
 $root     = Split-Path $PSScriptRoot -Parent
-$daemon   = Join-Path $root "jarvis-daemon"
-$frontend = Join-Path $root "jarvis-frontend"
+$daemon   = Join-Path $root "coordinator-daemon"
+$frontend = Join-Path $root "coordinator-frontend"
 
 function Have($cmd) { return [bool](Get-Command $cmd -ErrorAction SilentlyContinue) }
 function Refresh-Path {
@@ -15,7 +15,7 @@ function Refresh-Path {
 }
 
 Write-Host ""
-Write-Host "  =====  Installing JARVIS  =====" -ForegroundColor Cyan
+Write-Host "  =====  Installing Agentic Starter  =====" -ForegroundColor Cyan
 Write-Host ""
 
 # 1. Node.js (required)
@@ -38,7 +38,7 @@ if (-not (Have node)) {
 $nodeMajor = 0
 try { $nodeMajor = [int](((node --version) -replace 'v','').Split('.')[0]) } catch {}
 if ($nodeMajor -lt 22) {
-  Write-Host ("  Your Node.js is v{0} - JARVIS needs v22 or newer." -f $nodeMajor) -ForegroundColor Yellow
+  Write-Host ("  Your Node.js is v{0} - Agentic Starter needs v22 or newer." -f $nodeMajor) -ForegroundColor Yellow
   if (Have winget) {
     Write-Host "  Updating Node.js to the latest LTS..." -ForegroundColor Yellow
     winget install -e --id OpenJS.NodeJS.LTS --silent --accept-package-agreements --accept-source-agreements
@@ -77,10 +77,10 @@ foreach ($dir in @($daemon, $frontend, $overlay)) {
   }
 }
 
-# 3b. Voice model for the "Hey Jarvis" wake word (offline speech-to-text, ~40MB, one time)
+# 3b. Voice model for the "Hey Agentic Starter" wake word (offline speech-to-text, ~40MB, one time)
 $voiceSetup = Join-Path $frontend "setup-voice.ps1"
 if (Test-Path $voiceSetup) {
-  Write-Host "  Setting up offline voice for 'Hey Jarvis' (~40MB, one time)..." -ForegroundColor DarkGray
+  Write-Host "  Setting up offline voice for 'Hey Agentic Starter' (~40MB, one time)..." -ForegroundColor DarkGray
   try { Start-Process powershell -ArgumentList "-NoProfile","-ExecutionPolicy","Bypass","-File","`"$voiceSetup`"" -Wait -NoNewWindow } catch { Write-Host "  (voice model skipped - run setup-voice.ps1 later)" -ForegroundColor DarkGray }
 }
 
@@ -97,18 +97,18 @@ if (Have ollama) {
 }
 
 # 5. Desktop shortcut
-$lnk = Join-Path ([Environment]::GetFolderPath("Desktop")) "JARVIS.lnk"
+$lnk = Join-Path ([Environment]::GetFolderPath("Desktop")) "Agentic Starter.lnk"
 $wsh = New-Object -ComObject WScript.Shell
 $sc  = $wsh.CreateShortcut($lnk)
-$sc.TargetPath       = Join-Path $overlay "start-jarvis-app.bat"
+$sc.TargetPath       = Join-Path $overlay "start-coordinator-app.bat"
 $sc.WorkingDirectory = $overlay
 $sc.WindowStyle      = 7
 $sc.IconLocation     = "C:\Windows\System32\shell32.dll,13"
-$sc.Description       = "Start JARVIS"
+$sc.Description       = "Start Agentic Starter"
 $sc.Save()
 Write-Host "  Desktop shortcut: created" -ForegroundColor Green
 
 Write-Host ""
-Write-Host "  =====  JARVIS is installed  =====" -ForegroundColor Green
-Write-Host "  Double-click the JARVIS icon on your desktop to start it." -ForegroundColor Cyan
+Write-Host "  =====  Agentic Starter is installed  =====" -ForegroundColor Green
+Write-Host "  Double-click the Agentic Starter icon on your desktop to start it." -ForegroundColor Cyan
 Write-Host ""

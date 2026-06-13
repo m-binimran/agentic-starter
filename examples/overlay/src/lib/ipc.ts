@@ -1,6 +1,6 @@
-// Typed wrapper around window.jarvis (exposed via contextBridge in preload.ts)
+// Typed wrapper around window.coordinator (exposed via contextBridge in preload.ts)
 
-export interface JarvisAPI {
+export interface AgenticAPI {
   // Auth
   getAuthStatus: () => Promise<{ hasPinSet: boolean }>
   verifyPin: (pin: string) => Promise<{ success: boolean; isFirstTime?: boolean }>
@@ -23,4 +23,4 @@ export interface JarvisAPI {
   onToggleSidebar: (cb: () => void) => () => void
 }
 
-export const jarvis = (window as any).jarvis as JarvisAPI
+export const coordinator = (window as any).coordinator as AgenticAPI

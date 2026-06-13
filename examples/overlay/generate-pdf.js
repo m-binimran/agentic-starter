@@ -2,7 +2,7 @@ const PDFDocument = require('pdfkit');
 const fs = require('fs');
 const path = require('path');
 
-const outputPath = path.join(require('os').homedir(), 'Desktop', 'JARVIS-Build-Plan.pdf');
+const outputPath = path.join(require('os').homedir(), 'Desktop', 'Agentic Starter-Build-Plan.pdf');
 const doc = new PDFDocument({ margin: 50, size: 'A4' });
 doc.pipe(fs.createWriteStream(outputPath));
 
@@ -26,7 +26,7 @@ function coverPage() {
      .text('J', doc.page.width / 2 - 12, 200);
   // Title
   doc.fillColor(WHITE).fontSize(36).font('Helvetica-Bold')
-     .text('JARVIS', 0, 330, { align: 'center' });
+     .text('Agentic Starter', 0, 330, { align: 'center' });
   doc.fillColor(CYAN).fontSize(14).font('Helvetica')
      .text('Complete Build Plan', 0, 375, { align: 'center' });
   doc.fillColor(MUTED).fontSize(10)
@@ -131,7 +131,7 @@ function pageFooter() {
   for (let i = range.start + 1; i < range.start + range.count; i++) {
     doc.switchToPage(i);
     doc.fillColor(MUTED).fontSize(8)
-       .text('JARVIS — Confidential Build Plan', 50, doc.page.height - 35, { align: 'left', width: 300 });
+       .text('Agentic Starter — Confidential Build Plan', 50, doc.page.height - 35, { align: 'left', width: 300 });
     doc.fillColor(CYAN).fontSize(8)
        .text(`Page ${i}`, 0, doc.page.height - 35, { align: 'right', width: doc.page.width - 50 });
     doc.moveTo(50, doc.page.height - 42).lineTo(doc.page.width - 50, doc.page.height - 42)
@@ -149,7 +149,7 @@ doc.rect(0, 0, doc.page.width, doc.page.height).fill(DARK);
 
 // ── WHAT WE'RE BUILDING ──────────────────────────────────────────────────────
 sectionHeader('1. WHAT WE ARE BUILDING');
-body('JARVIS is a desktop AI operating system. It sits on your screen as a floating overlay, follows your cursor, watches how you work, and executes tasks for you — using any AI model you choose, local or cloud.');
+body('Agentic Starter is a desktop AI operating system. It sits on your screen as a floating overlay, follows your cursor, watches how you work, and executes tasks for you — using any AI model you choose, local or cloud.');
 body('No terminal. No technical setup. No subscriptions forced on the user. Everything runs on their own machine.');
 
 // ── CORE FEATURES ────────────────────────────────────────────────────────────
@@ -168,11 +168,11 @@ bullet('J bubble floats near them all day');
 bullet('One click or Alt+J opens the full assistant');
 bullet('Closes instantly, returns to bubble');
 bullet('Never interrupts their workflow');
-body('Why this beats everything else: Every other AI tool makes you stop what you are doing and switch context. JARVIS is already where you are.');
+body('Why this beats everything else: Every other AI tool makes you stop what you are doing and switch context. Agentic Starter is already where you are.');
 
 doc.moveDown(0.5);
 h2('Feature 2 — Watch Me Work (Recording + Playbook)');
-body('You do something once. JARVIS records every step. It generates a playbook. Next time JARVIS does it for you — or you hand the playbook to a new staff member.');
+body('You do something once. Agentic Starter records every step. It generates a playbook. Next time Agentic Starter does it for you — or you hand the playbook to a new staff member.');
 h3('How it works technically:');
 bullet('User clicks Record in the sidebar');
 bullet('desktopCapturer takes screenshots every 500ms');
@@ -180,18 +180,18 @@ bullet('Action logger records: mouse clicks, keyboard inputs, active window, URL
 bullet('On Stop: all frames and actions sent to AI model');
 bullet('AI analyses the sequence and writes a structured SOP');
 bullet('Playbook stored in local SQLite with steps, screenshots, and automation hooks');
-bullet('User can run the playbook: JARVIS executes each step automatically');
+bullet('User can run the playbook: Agentic Starter executes each step automatically');
 h3('What the user experiences:');
 bullet('Click Record, do your task normally');
 bullet('Click Stop');
 bullet('Playbook appears: Step 1: Open Gmail. Step 2: Click Compose...');
 bullet('One click to run it automatically next time');
 bullet('Export as PDF guide for staff training');
-body('Why this beats everything else: No other AI tool eliminates the cost of teaching. JARVIS watches you once and never asks again.');
+body('Why this beats everything else: No other AI tool eliminates the cost of teaching. Agentic Starter watches you once and never asks again.');
 
 // ── MODEL FLEXIBILITY ─────────────────────────────────────────────────────────
 sectionHeader('3. MODEL FLEXIBILITY — LOCAL OR API');
-body('On first launch, JARVIS asks: "How do you want to power your AI?" Users choose their AI engine on first setup and can switch any time from settings.');
+body('On first launch, Agentic Starter asks: "How do you want to power your AI?" Users choose their AI engine on first setup and can switch any time from settings.');
 
 h2('Local Models (Private, No Cost, Works Offline)');
 body('Powered by Ollama running silently in the background.');
@@ -223,7 +223,7 @@ table(
 );
 
 h2('Hybrid Mode');
-body('Use a fast local model for quick tasks. Route complex reasoning to an API model. JARVIS decides automatically based on task complexity, or the user sets rules manually.');
+body('Use a fast local model for quick tasks. Route complex reasoning to an API model. Agentic Starter decides automatically based on task complexity, or the user sets rules manually.');
 
 // ── FULL FEATURE SET ──────────────────────────────────────────────────────────
 sectionHeader('4. COMPLETE FEATURE SET');
@@ -242,7 +242,7 @@ h2('Five Built-In Agents');
 table(
   ['Agent', 'Speciality', 'Routes When...'],
   [
-    ['JARVIS Core', 'General assistant, task routing', 'Default — all general requests'],
+    ['Agentic Starter Core', 'General assistant, task routing', 'Default — all general requests'],
     ['KAREN', 'Email, calendar, scheduling', 'Anything about meetings, emails, time'],
     ['CODER', 'Code, debugging, technical', 'Any code or technical question'],
     ['HERMIONE', 'Research, documents, knowledge', '"Find", "research", "summarise"'],
@@ -396,7 +396,7 @@ const steps = [
   ['Step 4 — Week 3', 'Watch Me Work', 'Record button → screenshot loop → action log → Stop → AI generates playbook → display in sidebar.'],
   ['Step 5 — Week 4', 'Connectors', 'Gmail OAuth (browser-based, no terminal). Notion. Calendar. Test: "Create a Notion page" → it appears.'],
   ['Step 6 — Week 5', 'Run Playbooks', 'Each playbook step calls /api/connectors/execute. Progress bar in UI. Non-automatable steps prompt user.'],
-  ['Step 7 — Week 6', 'Skills System', 'Skills are JSON files. Install from GitHub URL. Store in ~/.jarvis/skills/. Trigger from chat via /skill-name.'],
+  ['Step 7 — Week 6', 'Skills System', 'Skills are JSON files. Install from GitHub URL. Store in ~/.coordinator/skills/. Trigger from chat via /skill-name.'],
   ['Step 8 — Week 7-8', 'Polish', 'Loading states. Human error messages. Onboarding flow. Auto-updater. Local crash reporting.'],
 ];
 steps.forEach(([phase, title, desc]) => {
@@ -436,10 +436,10 @@ codeBlock([
 
 // ── SKILLS BUNDLE ─────────────────────────────────────────────────────────────
 sectionHeader('9. SKILLS BUNDLE — MANIFEST FORMAT');
-body('Host this file on GitHub. Users paste the URL into JARVIS Skills Store → Import Bundle. Everything installs automatically — no terminal.');
+body('Host this file on GitHub. Users paste the URL into Agentic Starter Skills Store → Import Bundle. Everything installs automatically — no terminal.');
 codeBlock([
   '{',
-  '  "name": "JARVIS Official Skills Bundle",',
+  '  "name": "Agentic Starter Official Skills Bundle",',
   '  "version": "1.0.0",',
   '  "skills": [',
   '    {',
@@ -455,7 +455,7 @@ codeBlock([
 ]);
 
 body('Manifest URL to share with users:');
-codeBlock(['https://raw.githubusercontent.com/jarvis-ai/skills/main/bundle.json']);
+codeBlock(['https://raw.githubusercontent.com/coordinator-ai/skills/main/bundle.json']);
 
 // ── SKILLS LIST ───────────────────────────────────────────────────────────────
 sectionHeader('10. COMPLETE SKILLS LIST');
@@ -557,9 +557,9 @@ skillCategories.forEach(({ name, skills }) => {
 });
 
 // ── APEX COMPARISON ────────────────────────────────────────────────────────────
-sectionHeader('11. WHY JARVIS BEATS APEX');
+sectionHeader('11. WHY Agentic Starter BEATS APEX');
 table(
-  ['Feature', 'APEX', 'JARVIS'],
+  ['Feature', 'APEX', 'Agentic Starter'],
   [
     ['Model choice', 'Locked to one', 'Local + any API'],
     ['Works offline', 'No', 'Yes'],
@@ -618,16 +618,16 @@ table(
 // ── FIRST STEP ─────────────────────────────────────────────────────────────────
 sectionHeader('14. THIS WEEK — FIRST THREE TASKS');
 h2('Task 1 — Get a Response (Together)');
-body('Install Ollama. Pull llama3.1. Build /api/health and /api/chat. Connect the chat UI to it. Get one message to work end to end. Test: type "hello" in JARVIS chat → get a reply from local Llama.');
+body('Install Ollama. Pull llama3.1. Build /api/health and /api/chat. Connect the chat UI to it. Get one message to work end to end. Test: type "hello" in Agentic Starter chat → get a reply from local Llama.');
 h2('Task 2 — Add API Models (Together)');
 body('Add model selector to Settings. User can switch between Llama and Claude Haiku. Store the selected model and API key in encrypted local config. Test: switch models, same message, different response.');
 h2('Task 3 — Add Memory (Together)');
-body('Set up SQLite. Save every message with role, content, timestamp. On each new message, search memory for relevant past context and inject it into the AI prompt. Test: tell JARVIS your name → new chat → ask "what is my name?" → it knows.');
+body('Set up SQLite. Save every message with role, content, timestamp. On each new message, search memory for relevant past context and inject it into the AI prompt. Test: tell Agentic Starter your name → new chat → ask "what is my name?" → it knows.');
 
 doc.moveDown(1);
 doc.rect(50, doc.y, doc.page.width - 100, 60).fill('#0f172a');
 doc.fillColor(CYAN).fontSize(12).font('Helvetica-Bold')
-   .text('After these three tasks, JARVIS is alive.', 58, doc.y - 48, { width: doc.page.width - 116 });
+   .text('After these three tasks, Agentic Starter is alive.', 58, doc.y - 48, { width: doc.page.width - 116 });
 doc.fillColor(MUTED).fontSize(10).font('Helvetica')
    .text('Everything else is features on top of a working foundation.', 58, doc.y - 26, { width: doc.page.width - 116 });
 

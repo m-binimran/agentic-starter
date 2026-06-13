@@ -1,5 +1,5 @@
 // data.jsx — live data layer
-// Loads real data from the JARVIS daemon on port 9101.
+// Loads real data from the Agentic Starter daemon on port 9101.
 // Falls back to mock data when the daemon is offline.
 
 window.DAEMON_URL = 'http://127.0.0.1:9101';
@@ -26,7 +26,7 @@ const CHARACTERS = [
 
 // Placeholder agent list — replaced by real data on load
 const AGENTS = [
-  { id: "jarvis", name: "JARVIS", type: "orchestrator", status: "active", role: "Orchestrator", rate: [0, 100], task: "Loading…" },
+  { id: "coordinator", name: "Agentic Starter", type: "orchestrator", status: "active", role: "Orchestrator", rate: [0, 100], task: "Loading…" },
 ];
 const EDGES = [];
 
@@ -40,22 +40,22 @@ const THREAD = [];
 // ── Daemon type mappers ───────────────────────────────────────────────────────
 
 function mapAgentType(id, name) {
-  if (id === "jarvis" || id === "ceo") return "orchestrator";
+  if (id === "coordinator" || id === "ceo") return "orchestrator";
   if (name.toLowerCase().includes("lead")) return "lead";
   return "specialist";
 }
 
 function buildEdges(agents) {
   const edges = [];
-  const jarvis = agents.find(a => a.id === "jarvis");
+  const coordinator = agents.find(a => a.id === "coordinator");
   const ceo = agents.find(a => a.id === "ceo");
   const leads = agents.filter(a => a.type === "lead");
   const specialists = agents.filter(a => a.type === "specialist");
 
   if (ceo) leads.forEach(l => edges.push([ceo.id, l.id]));
-  if (jarvis) {
-    leads.forEach(l => edges.push([jarvis.id, l.id]));
-    // Jarvis → specialists that don't belong to a lead
+  if (coordinator) {
+    leads.forEach(l => edges.push([coordinator.id, l.id]));
+    // Agentic Starter → specialists that don't belong to a lead
     const contentLead  = agents.find(a => a.id === "content-lead" || a.id === "marketing-lead");
     const opsLead      = agents.find(a => a.id === "ops-lead");
     const financeLead  = agents.find(a => a.id === "finance-lead");
@@ -64,7 +64,7 @@ function buildEdges(agents) {
         (contentLead && (s.id.includes("content") || s.id.includes("social") || s.id.includes("analytics") || s.id.includes("hooks") || s.id.includes("script"))) ||
         (opsLead     && (s.id.includes("project") || s.id.includes("automation"))) ||
         (financeLead && (s.id.includes("budget")  || s.id.includes("docs")));
-      if (!matched) edges.push([jarvis.id, s.id]);
+      if (!matched) edges.push([coordinator.id, s.id]);
     });
     if (contentLead)  specialists.filter(s => s.id.includes("content") || s.id.includes("social") || s.id.includes("analytics") || s.id.includes("hooks") || s.id.includes("script")).forEach(s => edges.push([contentLead.id, s.id]));
     if (opsLead)      specialists.filter(s => s.id.includes("project") || s.id.includes("automation")).forEach(s => edges.push([opsLead.id, s.id]));
@@ -142,11 +142,11 @@ async function loadLiveData() {
   // 4. Enterprise mode state
   try {
     const { enterprise } = await fetch(`${url}/api/enterprise/mode`).then(r => r.json());
-    window.__JARVIS_ENTERPRISE__ = enterprise === true;
-  } catch { window.__JARVIS_ENTERPRISE__ = false; }
+    window.__AGENTIC_ENTERPRISE__ = enterprise === true;
+  } catch { window.__AGENTIC_ENTERPRISE__ = false; }
 
   // Notify app that live data is ready (triggers re-render)
-  window.dispatchEvent(new CustomEvent("jarvis:data-loaded"));
+  window.dispatchEvent(new CustomEvent("coordinator:data-loaded"));
 }
 
 // Assign fallbacks first so app renders immediately, then overlay with live data

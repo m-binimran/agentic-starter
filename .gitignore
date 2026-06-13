@@ -23,7 +23,7 @@ logs/
 secrets.json
 
 # Local AI / vault data (lives outside the repo, but ignore just in case)
-.jarvis/
+.agentic-starter/
 *.db
 *.sqlite
 *.sqlite3

@@ -1,6 +1,6 @@
 import { contextBridge, ipcRenderer } from 'electron';
 
-contextBridge.exposeInMainWorld('jarvis', {
+contextBridge.exposeInMainWorld('coordinator', {
   // ── Auth ──────────────────────────────────────────────────────────────
   getAuthStatus: () => ipcRenderer.invoke('auth:get-status'),
   verifyPin: (pin: string) => ipcRenderer.invoke('auth:verify-pin', pin),

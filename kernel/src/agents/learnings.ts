@@ -1,8 +1,8 @@
 /**
- * JARVIS Learnings — durable memory that changes behaviour over time.
+ * Agentic Starter Learnings — durable memory that changes behaviour over time.
  *
  * Unlike the per-session journal (which only keeps the latest entry), learnings
- * ACCUMULATE and are ALWAYS injected into the agent's prompt, so JARVIS:
+ * ACCUMULATE and are ALWAYS injected into the agent's prompt, so Agentic Starter:
  *   - never repeats a mistake it (or the user) flagged   → kind "mistake" / "lesson"
  *   - follows what the user said they like/prefer         → kind "preference"
  *

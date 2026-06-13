@@ -1,5 +1,5 @@
 /**
- * JARVIS Agent Runner
+ * Agentic Starter Agent Runner
  *
  * The core execution loop for a single agent.
  * Wraps the LLM call with:
@@ -276,7 +276,7 @@ export class AgentRunner {
 
             return {
               success: false,
-              output: "Three consecutive failures — task aborted. JARVIS is waiting for instructions.",
+              output: "Three consecutive failures — task aborted. Agentic Starter is waiting for instructions.",
               turns,
               abortReason: "three_strikes",
               tokensUsed: totalTokens,

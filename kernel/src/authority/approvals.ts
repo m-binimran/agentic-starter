@@ -1,5 +1,5 @@
 /**
- * JARVIS Approval Manager
+ * Agentic Starter Approval Manager
  *
  * Bridges the gap between:
  *   - The agent runner's async onApprovalNeeded callback (waits for a bool)

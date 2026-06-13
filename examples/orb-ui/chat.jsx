@@ -45,7 +45,7 @@ const PERMISSION_MODES = [
 ];
 
 const AGENT_CHIPS = [
-  { id: "jarvis",   label: "JARVIS" },
+  { id: "coordinator",   label: "Agentic Starter" },
   { id: "content",  label: "Content Lead" },
   { id: "research", label: "Research Lead" },
 ];
@@ -140,7 +140,7 @@ function TopBar({ session, setSession, mode, tokens, setTokens, view, setView, p
           }}>
             <div className="mono upper" style={{ fontSize: 9, color: "var(--subtext)", letterSpacing: ".14em", marginBottom: 8 }}>USAGE · TODAY</div>
             {[
-              ["JARVIS",        "12,402 / 8,114", "$0.041"],
+              ["Agentic Starter",        "12,402 / 8,114", "$0.041"],
               ["Content Lead",  "8,221 / 4,030",  "$0.024"],
               ["Research Lead", "14,118 / 1,901", "$0.038"],
               ["Mail Agent",    "1,402 / 220",    "$0.004"],
@@ -164,7 +164,7 @@ function TopBar({ session, setSession, mode, tokens, setTokens, view, setView, p
       <ChatLauncher onOpenChat={onOpenChat} />
       <button onClick={onFlipBack}
         className="card"
-        title="Flip to JARVIS orb"
+        title="Flip to Agentic Starter orb"
         style={{
           display: "inline-flex", alignItems: "center", gap: 6,
           padding: "5px 10px",
@@ -174,7 +174,7 @@ function TopBar({ session, setSession, mode, tokens, setTokens, view, setView, p
           flexShrink: 0,
         }}>
         <I.power size={12} />
-        <span className="mono upper" style={{ fontSize: 9, letterSpacing: ".14em" }}>JARVIS</span>
+        <span className="mono upper" style={{ fontSize: 9, letterSpacing: ".14em" }}>Agentic Starter</span>
       </button>
     </div>
   );
@@ -230,7 +230,7 @@ function ApprovalCard({ approval, onResolve }) {
 function MessageRow({ m, onApprove }) {
   const isUser = m.from === "user";
   const isError = m.from === "error";
-  const accentColor = m.from === "jarvis" || m.from === "ceo" ? "var(--primary)" : "var(--accent)";
+  const accentColor = m.from === "coordinator" || m.from === "ceo" ? "var(--primary)" : "var(--accent)";
 
   const handleApprove = async (approved) => {
     if (onApprove) onApprove(m.approval.requestId, approved);
@@ -255,7 +255,7 @@ function MessageRow({ m, onApprove }) {
         <span>{m.ts}</span>
         <span style={{ color: "var(--border-2)" }}>·</span>
         <span style={{ color: isUser ? "var(--muted)" : accentColor }}>
-          {isUser ? "YOU" : (m.agent || "JARVIS")}
+          {isUser ? "YOU" : (m.agent || "Agentic Starter")}
         </span>
         {m.streaming && (
           <span style={{ color: "var(--muted)", fontSize: 9 }}>●</span>
@@ -427,7 +427,7 @@ function InputArea({ value, setValue, onSend, agent, setAgent, permissions, setP
             ref={taRef}
             value={value}
             onChange={(e) => setValue(e.target.value)}
-            placeholder="Message JARVIS…"
+            placeholder="Message Agentic Starter…"
             rows={1}
             onKeyDown={(e) => {
               if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); onSend(); }
@@ -508,7 +508,7 @@ function InputArea({ value, setValue, onSend, agent, setAgent, permissions, setP
 
 function Pane({ pane, onClose, single, mode }) {
   const [value, setValue] = React.useState("");
-  const [agent, setAgent] = React.useState("jarvis");
+  const [agent, setAgent] = React.useState("coordinator");
   const [thread, setThread] = React.useState(pane.thread || window.THREAD);
   const [permissions, setPermissions] = React.useState(PERMISSION_DEFAULTS);
   const [permMode, setPermMode] = React.useState("PRODUCTIVE");
@@ -522,10 +522,10 @@ function Pane({ pane, onClose, single, mode }) {
 
     // Insert a streaming placeholder
     const tempId = `stream-${Date.now()}`;
-    const agentLabel = AGENT_CHIPS.find(c => c.id === agent)?.label || "JARVIS";
+    const agentLabel = AGENT_CHIPS.find(c => c.id === agent)?.label || "Agentic Starter";
     setThread(t => [...t, {
       id: tempId,
-      from: agent || "jarvis",
+      from: agent || "coordinator",
       agent: agentLabel,
       text: "",
       ts: new Date().toTimeString().slice(0, 5),
@@ -611,7 +611,7 @@ function Pane({ pane, onClose, single, mode }) {
     } catch (e) {
       setThread(t => t.map(m =>
         m.id === tempId
-          ? { ...m, text: `Cannot reach JARVIS daemon (${window.DAEMON_URL}). Is it running?\n${e.message}`, streaming: false, from: "error" }
+          ? { ...m, text: `Cannot reach Agentic Starter daemon (${window.DAEMON_URL}). Is it running?\n${e.message}`, streaming: false, from: "error" }
           : m
       ));
     }
@@ -726,7 +726,7 @@ function ChatArea({ mode, view, setView, session, setSession, tokens, setTokens,
     if (panes[q]) return;
     let payload = dragPayload.current;
     try {
-      const raw = e.dataTransfer.getData("application/x-jarvis-session");
+      const raw = e.dataTransfer.getData("application/x-coordinator-session");
       if (raw) payload = JSON.parse(raw);
     } catch (_) {}
     if (!payload) return;
@@ -842,7 +842,7 @@ function ChatArea({ mode, view, setView, session, setSession, tokens, setTokens,
                   e.preventDefault();
                   let payload = dragPayload.current;
                   try {
-                    const raw = e.dataTransfer.getData("application/x-jarvis-session");
+                    const raw = e.dataTransfer.getData("application/x-coordinator-session");
                     if (raw) payload = JSON.parse(raw);
                   } catch (_) {}
                   if (!payload) return;

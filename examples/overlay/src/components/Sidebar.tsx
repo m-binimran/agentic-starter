@@ -84,7 +84,7 @@ export function Sidebar({ onClose }: Props) {
     <div className={`sidebar ${enterprise ? 'enterprise' : ''}`}>
       <div className="sidebar-header">
         <div className="header-title">
-          <h1>JARVIS</h1>
+          <h1>Agentic Starter</h1>
           {enterprise && <span className="enterprise-badge">ENTERPRISE</span>}
         </div>
         <div className="header-actions">

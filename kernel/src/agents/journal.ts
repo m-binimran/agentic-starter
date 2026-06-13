@@ -1,5 +1,5 @@
 /**
- * JARVIS Agent Journals
+ * Agentic Starter Agent Journals
  *
  * Each agent writes a journal entry when a task ends.
  * The next task run reads the last journal to restore context.

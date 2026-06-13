@@ -1,5 +1,5 @@
 /**
- * JARVIS Rate Limiter
+ * Agentic Starter Rate Limiter
  *
  * Token-bucket rate limiting per agent.
  * Persisted in SQLite so limits survive restarts.

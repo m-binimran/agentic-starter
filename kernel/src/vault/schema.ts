@@ -1,5 +1,5 @@
 /**
- * JARVIS Vault — SQLite Schema
+ * Agentic Starter Vault — SQLite Schema
  * Single local file. Everything lives here. Nothing leaves the machine.
  *
  * Uses better-sqlite3 (Node.js compatible). Same synchronous API as bun:sqlite
@@ -72,7 +72,7 @@ export function closeDb(): void {
 }
 
 export function defaultDbPath(): string {
-  return path.join(os.homedir(), ".jarvis", "vault.db");
+  return path.join(os.homedir(), ".agentic-starter", "vault.db");
 }
 
 export function initDatabase(dbPath: string = defaultDbPath()): Database {

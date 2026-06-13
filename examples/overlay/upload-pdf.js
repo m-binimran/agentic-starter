@@ -2,7 +2,7 @@
 const fs = require('fs');
 const https = require('https');
 
-const filePath = 'C:/Users/user/Desktop/JARVIS-Build-Plan.pdf';
+const filePath = 'C:/Users/user/Desktop/Agentic Starter-Build-Plan.pdf';
 
 function get(url) {
   return new Promise((resolve, reject) => {
@@ -48,7 +48,7 @@ async function main() {
   const server = serverInfo.data.servers[0].name;
   console.log('Uploading to', server + '...');
   const fileData = fs.readFileSync(filePath);
-  const result = await upload(server + '.gofile.io', fileData, 'JARVIS-Build-Plan.pdf');
+  const result = await upload(server + '.gofile.io', fileData, 'Agentic Starter-Build-Plan.pdf');
   if (result.status === 'ok') {
     console.log('\n✅ SHAREABLE LINK:');
     console.log(result.data.downloadPage);

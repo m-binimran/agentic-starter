@@ -1,7 +1,7 @@
 /**
  * Feedback store — thumbs up / down per agent output
  *
- * Every piece of output JARVIS produces can be rated.
+ * Every piece of output Agentic Starter produces can be rated.
  * These ratings feed the learning loop — agents that get thumbs-down
  * more often will eventually trigger dreaming / self-correction.
  *

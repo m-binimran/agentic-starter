@@ -28,7 +28,7 @@ interface Props {
 
 export function Chat({ speakRef, onSendReady }: Props = {}) {
   const [messages, setMessages] = useState<Message[]>([
-    { id: msgId(), role: 'assistant', content: 'JARVIS online. How can I help?' }
+    { id: msgId(), role: 'assistant', content: 'Agentic Starter online. How can I help?' }
   ])
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
@@ -150,7 +150,7 @@ export function Chat({ speakRef, onSendReady }: Props = {}) {
           ? {
               ...m,
               role: 'error',
-              content: `Cannot reach JARVIS daemon at ${DAEMON_URL}. Is it running?\n${String(e)}`,
+              content: `Cannot reach Agentic Starter daemon at ${DAEMON_URL}. Is it running?\n${String(e)}`,
             }
           : m
         )
@@ -265,14 +265,14 @@ export function Chat({ speakRef, onSendReady }: Props = {}) {
               <div className="feedback-row">
                 <button
                   className={`feedback-btn ${m.feedback === 1 ? 'active-up' : ''}`}
-                  onClick={() => submitFeedback(m.id, 1, m.agentId ?? 'jarvis')}
+                  onClick={() => submitFeedback(m.id, 1, m.agentId ?? 'coordinator')}
                   title="Good response"
                 >
                   👍
                 </button>
                 <button
                   className={`feedback-btn ${m.feedback === -1 ? 'active-down' : ''}`}
-                  onClick={() => submitFeedback(m.id, -1, m.agentId ?? 'jarvis')}
+                  onClick={() => submitFeedback(m.id, -1, m.agentId ?? 'coordinator')}
                   title="Not helpful"
                 >
                   👎
@@ -290,7 +290,7 @@ export function Chat({ speakRef, onSendReady }: Props = {}) {
           value={input}
           onChange={e => setInput(e.target.value)}
           onKeyDown={onKeyDown}
-          placeholder="Message JARVIS…"
+          placeholder="Message Agentic Starter…"
           disabled={loading}
           rows={1}
         />

@@ -1,5 +1,5 @@
 /**
- * JARVIS MCP Router
+ * Agentic Starter MCP Router
  *
  * Custom MCP plug-in router — connect anything.
  * Each MCP connector registers its tools here.
@@ -262,7 +262,7 @@ export const screenConnector: MCPConnector = {
     },
     {
       name: "clear_screen",
-      description: "Erase everything JARVIS has drawn on the screen.",
+      description: "Erase everything Agentic Starter has drawn on the screen.",
       category: "web_browse",
       inputSchema: {},
       async handler() {
@@ -289,7 +289,7 @@ export const execConnector: MCPConnector = {
       async handler({ command, args = [] }) {
         // Shell is OFF by default - opt-in only, and only ever inside the sandbox.
         if (!isShellEnabled()) {
-          throw new Error("[SANDBOX] Shell execution is disabled by default. Enable it explicitly (setShellEnabled / JARVIS_ENABLE_SHELL=1); it only ever runs inside a Docker sandbox.");
+          throw new Error("[SANDBOX] Shell execution is disabled by default. Enable it explicitly (setShellEnabled / AGENTIC_ENABLE_SHELL=1); it only ever runs inside a Docker sandbox.");
         }
         const cmd = reqStr(command, "command", "run_shell");
         const res = runInSandbox(cmd, (Array.isArray(args) ? args : []).map(String));

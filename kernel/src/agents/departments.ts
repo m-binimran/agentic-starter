@@ -1,5 +1,5 @@
 /**
- * JARVIS Default Departments & Agents
+ * Agentic Starter Default Departments & Agents
  *
  * Defines the V1 agent roster.
  * All agents start dormant — zero token cost until dispatched.
@@ -30,11 +30,11 @@ function mcpTool(
 
 // ── Agent definitions (built with live router) ────────────────────────────
 
-function buildJarvisHead(router: MCPRouter): AgentDefinition {
+function buildAssistantHead(router: MCPRouter): AgentDefinition {
   return {
-    id: "jarvis",
-    name: "JARVIS",
-    systemPrompt: `You are JARVIS — a personal AI operating system.
+    id: "coordinator",
+    name: "Agentic Starter",
+    systemPrompt: `You are Agentic Starter — a personal AI operating system.
 You are precise, honest, and proactively helpful. You are not a chatbot — you execute tasks.
 
 TOOL CALL format: TOOL_CALL:<toolName>:{"param":"value"}
@@ -72,7 +72,7 @@ For web tasks: use browser_navigate to open a page, browser_extract to read cont
       mcpTool(router, "browser_scroll",     "Scroll the page",                 "read_file"),
     ],
     model: "meta/llama-3.1-8b-instruct",  // fast 8B for snappy chat; heavy work is delegated to the 70B specialist agents
-    reflect: false,        // skip the self-review call — JARVIS should answer instantly
+    reflect: false,        // skip the self-review call — Agentic Starter should answer instantly
     maxTurns: 15,
   };
 }
@@ -81,7 +81,7 @@ function buildResearchAgent(router: MCPRouter): AgentDefinition {
   return {
     id: "research-agent",
     name: "Research",
-    systemPrompt: `You are the Research agent for JARVIS.
+    systemPrompt: `You are the Research agent for Agentic Starter.
 Find information, summarize sources, extract key facts from anywhere.
 Use the browser to research websites, competitors, prices, news — anything.
 Format tool calls: TOOL_CALL:<toolName>:{"param":"value"}
@@ -108,7 +108,7 @@ function buildTaskAgent(router: MCPRouter): AgentDefinition {
   return {
     id: "task-agent",
     name: "Task Manager",
-    systemPrompt: `You are the Task Management agent for JARVIS.
+    systemPrompt: `You are the Task Management agent for Agentic Starter.
 Create, update, and prioritize tasks. Track projects. Suggest next actions.
 Read and write task files. Do NOT send messages or emails.
 Format tool calls: TOOL_CALL:<toolName>:{"param":"value"}`,
@@ -126,7 +126,7 @@ function buildCommsAgent(router: MCPRouter): AgentDefinition {
   return {
     id: "comms-agent",
     name: "Communications",
-    systemPrompt: `You are the Communications agent for JARVIS.
+    systemPrompt: `You are the Communications agent for Agentic Starter.
 DRAFT emails and messages. NEVER send without explicit user approval.
 Always show the draft and ask "Shall I send this?" before using any send tool.
 Format tool calls: TOOL_CALL:<toolName>:{"param":"value"}`,
@@ -143,7 +143,7 @@ function buildFsAgent(router: MCPRouter): AgentDefinition {
   return {
     id: "fs-agent",
     name: "File System",
-    systemPrompt: `You are the File System agent for JARVIS.
+    systemPrompt: `You are the File System agent for Agentic Starter.
 Read, write, and organize files. NEVER delete without explicit user approval.
 Format tool calls: TOOL_CALL:<toolName>:{"param":"value"}`,
     tools: [
@@ -161,7 +161,7 @@ function buildCalendarAgent(router: MCPRouter): AgentDefinition {
   return {
     id: "calendar-agent",
     name: "Calendar",
-    systemPrompt: `You are the Calendar agent for JARVIS.
+    systemPrompt: `You are the Calendar agent for Agentic Starter.
 Check schedules, suggest times, create events.
 Always confirm before writing to calendar.
 Format tool calls: TOOL_CALL:<toolName>:{"param":"value"}`,
@@ -177,7 +177,7 @@ function buildCodeAgent(router: MCPRouter): AgentDefinition {
   return {
     id: "code-agent",
     name: "Code",
-    systemPrompt: `You are the Code agent for JARVIS.
+    systemPrompt: `You are the Code agent for Agentic Starter.
 Write, debug, and explain code. Run scripts when asked.
 Always show code before executing. Explain what it does first.
 Format tool calls: TOOL_CALL:<toolName>:{"param":"value"}`,
@@ -199,7 +199,7 @@ export function buildPersonalDepartment(router: MCPRouter): Department {
     name: "Personal",
     description: "M's everyday personal AI — Basic Mode",
     agents: [
-      buildJarvisHead(router),
+      buildAssistantHead(router),
       buildResearchAgent(router),
       buildTaskAgent(router),
       buildCommsAgent(router),

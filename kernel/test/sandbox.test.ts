@@ -4,7 +4,7 @@ import assert from "node:assert/strict";
 import { isShellEnabled, setShellEnabled, dockerAvailable, runInSandbox } from "../src/sandbox.ts";
 
 test("shell is OFF by default and toggles", () => {
-  // (assumes JARVIS_ENABLE_SHELL is not set in the test env)
+  // (assumes AGENTIC_ENABLE_SHELL is not set in the test env)
   assert.equal(isShellEnabled(), false);
   setShellEnabled(true);  assert.equal(isShellEnabled(), true);
   setShellEnabled(false); assert.equal(isShellEnabled(), false);

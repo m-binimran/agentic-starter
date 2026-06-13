@@ -1,5 +1,5 @@
 /**
- * Screen guidance — JARVIS looks at your screen and shows you where to click.
+ * Screen guidance — Agentic Starter looks at your screen and shows you where to click.
  *
  * Flow ("guide me to do X"):
  *   1. The orb asks the daemon to guide a task  → POST /api/guide { task }
@@ -91,7 +91,7 @@ async function listVisionBackends(): Promise<VisionBackend[]> {
 }
 
 const SYSTEM_PROMPT =
-  "You are JARVIS's screen-guidance vision system. You are shown a screenshot of " +
+  "You are Agentic Starter's screen-guidance vision system. You are shown a screenshot of " +
   "the user's screen and a task they want to accomplish. Find the single UI element " +
   "they should interact with next to make progress on that task (a button, link, " +
   "menu item, field, etc.).\n\n" +

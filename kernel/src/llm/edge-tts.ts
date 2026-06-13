@@ -1,13 +1,13 @@
 /**
  * Free neural text-to-speech via Microsoft Edge's online voices.
- * No API key, no cost. Gives JARVIS a human British-male voice ("Ryan")
+ * No API key, no cost. Gives Agentic Starter a human British-male voice ("Ryan")
  * instead of the robotic built-in Windows voices (David/Zira).
  */
 
 // msedge-tts ships its own types, but the stream shape varies by version — cast as needed.
 import { MsEdgeTTS, OUTPUT_FORMAT } from "msedge-tts";
 
-const DEFAULT_VOICE = "en-GB-RyanNeural"; // calm British male — the JARVIS feel
+const DEFAULT_VOICE = "en-GB-RyanNeural"; // calm British male — the Agentic Starter feel
 
 export async function synthesizeSpeech(text: string, voice: string = DEFAULT_VOICE): Promise<Buffer> {
   const tts = new MsEdgeTTS();

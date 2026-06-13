@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>JARVIS — Desktop</title>
+<title>Agentic Starter — Desktop</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -206,9 +206,9 @@
 <script type="text/babel" src="onboarding.jsx"></script>
 <script type="text/babel" src="app.jsx"></script>
 <script type="module">
-  // Bridge the offline Vosk voice engine to the (Babel-compiled) orb via window.JarvisVoice.
+  // Bridge the offline Vosk voice engine to the (Babel-compiled) orb via window.AgenticVoice.
   import { pttStart, pttStop } from "./voice.js";
-  window.JarvisVoice = { pttStart, pttStop };
+  window.AgenticVoice = { pttStart, pttStop };
 </script>
 </body>
 </html>

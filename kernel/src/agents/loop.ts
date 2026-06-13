@@ -163,7 +163,7 @@ export function startLoop(
   };
   loops.set(id, rec);
   getAuditTrail().log({ action: "agent_loop_start", payload: { loopId: id, goal: rec.goal, maxSteps: rec.maxSteps } });
-  void runLoop(orchestrator, rec, opts.agentId ?? "jarvis");
+  void runLoop(orchestrator, rec, opts.agentId ?? "coordinator");
   return { id };
 }
 

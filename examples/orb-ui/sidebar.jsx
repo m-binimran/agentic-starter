@@ -156,7 +156,7 @@ const HistoryItem = ({ h, active, onClick, onDragStart, onDragEnd }) => (
     draggable
     onDragStart={(e) => {
       e.dataTransfer.effectAllowed = "copy";
-      e.dataTransfer.setData("application/x-jarvis-session",
+      e.dataTransfer.setData("application/x-coordinator-session",
         JSON.stringify({ id: h.id, label: h.title, thread: window.THREAD.slice(0, 4) }));
       onDragStart && onDragStart(h);
     }}
@@ -233,7 +233,7 @@ function Sidebar({ mode, setMode, view, setView, briefId, setBriefId, skills, se
       <div style={{ padding: "14px 16px 10px", borderBottom: "1px solid var(--border)" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
           <LogoMark size={18} />
-          <span className="upper gold-text" style={{ fontSize: 13, letterSpacing: ".34em", fontWeight: 700 }}>JARVIS</span>
+          <span className="upper gold-text" style={{ fontSize: 13, letterSpacing: ".34em", fontWeight: 700 }}>Agentic Starter</span>
           <span style={{ flex: 1 }} />
           <span className="mono" style={{ fontSize: 8, color: "var(--subtext)", letterSpacing: ".08em" }}>v0.4.1</span>
         </div>

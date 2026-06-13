@@ -1,7 +1,7 @@
 /**
- * JARVIS Pre-baked Skills — Decision 15
+ * Agentic Starter Pre-baked Skills — Decision 15
  *
- * Five skills that ship with every JARVIS install.
+ * Five skills that ship with every Agentic Starter install.
  * Skills are specialist agents with tightly focused system prompts.
  * They are invoked by name: "use the email-drafter skill" or
  * matched automatically by the orchestrator keyword router.

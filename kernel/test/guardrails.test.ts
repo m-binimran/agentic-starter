@@ -31,8 +31,8 @@ test("rate limiter allows a burst then blocks", () => {
 test("path allowlist: null allows all; a list confines", () => {
   setAllowedPaths(null);
   assert.equal(pathAllowed("C:/anything/x"), true);
-  setAllowedPaths(["C:/Users/user/.jarvis"]);
-  assert.equal(pathAllowed("C:/Users/user/.jarvis/vault.db"), true);
+  setAllowedPaths(["C:/Users/user/.agentic-starter"]);
+  assert.equal(pathAllowed("C:/Users/user/.agentic-starter/vault.db"), true);
   assert.equal(pathAllowed("C:/Windows/System32/secret"), false);
   setAllowedPaths(null); // reset
 });

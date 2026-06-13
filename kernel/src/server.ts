@@ -1,5 +1,5 @@
 /**
- * JARVIS Daemon HTTP Server
+ * Agentic Starter Daemon HTTP Server
  *
  * Hono-based REST + SSE server.
  * Runs on port 9101 (localhost only — never exposed to internet without sidecar auth).
@@ -125,7 +125,7 @@ export function buildServer(deps: {
     }
   });
 
-  // ── Screen annotations — what JARVIS draws on your screen ─────────────────
+  // ── Screen annotations — what Agentic Starter draws on your screen ─────────────────
   const annotateSchema = z.object({
     shapes: z.array(z.object({
       type: z.enum(["rect", "circle", "arrow", "label"]),
@@ -230,7 +230,7 @@ export function buildServer(deps: {
           onApprovalNeeded: async (action, context, fromAgentId) => {
             const approvalMgr = getApprovalManager();
             const { requestId, promise } = approvalMgr.request(
-              fromAgentId ?? agentId ?? "jarvis",
+              fromAgentId ?? agentId ?? "coordinator",
               action,
               context
             );
@@ -272,7 +272,7 @@ export function buildServer(deps: {
     });
   });
 
-  // ── Activity — is JARVIS working? (the pill polls this for its thinking dots) ─
+  // ── Activity — is Agentic Starter working? (the pill polls this for its thinking dots) ─
   app.get("/api/activity", c => c.json({ busy: isBusy() }));
 
   // ── Autonomous agent loop ─────────────────────────────────────────────────
@@ -725,8 +725,8 @@ export function buildServer(deps: {
 
   app.post("/api/slack/agents", zValidator("json", agentTokenSchema), async c => {
     const { agentId, token } = c.req.valid("json");
-    if (agentId === "jarvis") {
-      return c.json({ error: "JARVIS uses the main bot token (slack_bot_token), not a per-agent token." }, 400);
+    if (agentId === "coordinator") {
+      return c.json({ error: "Agentic Starter uses the main bot token (slack_bot_token), not a per-agent token." }, 400);
     }
     const known = orchestrator.getDepartments().some(d => d.agents.some(a => a.id === agentId));
     if (!known) return c.json({ error: `Unknown agent id "${agentId}"` }, 400);
@@ -912,7 +912,7 @@ export function buildServer(deps: {
       getAuditTrail().log({ action: "key_stored", payload: { provider: "google-workspace" } });
       return c.html(`
         <h2>✅ Google Workspace Connected</h2>
-        <p>Gmail and Google Calendar are now active in JARVIS.</p>
+        <p>Gmail and Google Calendar are now active in Agentic Starter.</p>
         <p>You can close this window.</p>
       `);
     } catch (err) {

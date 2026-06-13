@@ -1,6 +1,6 @@
 /**
  * LLM Manager — multi-provider routing with fallback chain.
- * Inspired by usejarvis pattern. Written fresh.
+ * Written fresh.
  */
 
 import type { LLMProvider, LLMMessage, LLMOptions, LLMResponse, LLMStreamChunk } from "./provider.ts";

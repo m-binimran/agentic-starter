@@ -1,5 +1,5 @@
 /**
- * Global "is JARVIS working right now" flag.
+ * Global "is Agentic Starter working right now" flag.
  *
  * The pill (a separate Electron window) can't see the orb's React state, so it
  * polls GET /api/activity and shows its thinking animation while this is busy.

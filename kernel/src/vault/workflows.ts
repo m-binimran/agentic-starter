@@ -1,5 +1,5 @@
 /**
- * JARVIS Workflow Storage & Execution
+ * Agentic Starter Workflow Storage & Execution
  *
  * Workflows are saved as JSON graphs (nodes + edges).
  * Execution walks the graph topologically:
@@ -206,7 +206,7 @@ export async function executeWorkflow(
       }
 
       if (node.type === "action") {
-        const agentId = String(node.data.agentId ?? "jarvis");
+        const agentId = String(node.data.agentId ?? "coordinator");
         const prompt = node.data.prompt
           ? `${node.data.prompt}\n\nContext: ${lastOutput}`
           : lastOutput;

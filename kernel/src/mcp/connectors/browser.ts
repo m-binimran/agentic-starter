@@ -1,5 +1,5 @@
 /**
- * JARVIS Browser MCP Connector
+ * Agentic Starter Browser MCP Connector
  *
  * Gives every agent full browser control via Playwright.
  * One connector replaces 20 per-service MCPs.
@@ -15,8 +15,8 @@
  *   browser_evaluate   — run JavaScript on the page
  *   browser_close      — close the current page
  *
- * The browser runs headlessly by default. Set JARVIS_BROWSER_HEADLESS=false
- * to watch JARVIS work in a visible window.
+ * The browser runs headlessly by default. Set AGENTIC_BROWSER_HEADLESS=false
+ * to watch Agentic Starter work in a visible window.
  *
  * Decision: Playwright replaces per-service MCPs for universal browser control.
  */
@@ -33,7 +33,7 @@ let activePage:      import("playwright").Page | null = null;
 async function getBrowser(): Promise<import("playwright").Browser> {
   if (!browserInstance || !browserInstance.isConnected()) {
     const { chromium } = await import("playwright");
-    const headless = process.env.JARVIS_BROWSER_HEADLESS !== "false";
+    const headless = process.env.AGENTIC_BROWSER_HEADLESS !== "false";
     browserInstance = await chromium.launch({
       headless,
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
